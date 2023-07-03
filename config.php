@@ -16,10 +16,10 @@
 define('DB_HOST', 'localhost'); // Ganti dengan host database Anda
 define('DB_USERNAME', 'root'); // Ganti dengan username database Anda
 define('DB_PASSWORD', ''); // Ganti dengan password database Anda
-define('DB_NAME', 'spk_pem_kost'); // Ganti dengan nama database Anda
+define('DB_NAME', 'spk_pem_lemari'); // Ganti dengan nama database Anda
 
 // Konfigurasi URL
-define('BASE_URL', 'http://localhost/spk-pem-kost/'); // Ganti dengan URL dasar website Anda
+define('BASE_URL', 'http://localhost/spk-pem-lemari/'); // Ganti dengan URL dasar website Anda
 
 // Fungsi untuk menghubungkan ke database
 function connectDatabase()

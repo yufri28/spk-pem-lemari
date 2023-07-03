@@ -45,6 +45,9 @@
         </div>
     </div>
 </div>
+<script src="../assets/lightbox2/js/lightbox-plus-jquery.js"></script>
+<script src="../assets/lightbox2/js/lightbox.js"></script>
+<script src="../assets/js/script.js"></script>
 <!-- Bootstrap core JavaScript-->
 <script src="../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -73,7 +76,15 @@ $(document).ready(function() {
         "scrollX": true,
         "scrollY": true,
     });
-    // new $.fn.dataTable.FixedHeader(table);
+    var table = $('#dataLemari').DataTable({
+        responsive: true,
+        "lengthMenu": [
+            [5, 10, 15, 20, 100, -1],
+            [5, 10, 15, 20, 100, "All"]
+        ],
+        "scrollX": true,
+        "scrollY": true,
+    });
 });
 </script>
 </body>

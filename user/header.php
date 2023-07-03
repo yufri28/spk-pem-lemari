@@ -1,3 +1,15 @@
+<?php 
+require_once '../config.php';
+
+if(!isset($_SESSION['login']) && $_SESSION['login'] != true){
+    header("Location: ../index.php");
+}
+else if($_SESSION['level'] != 1){
+    header("Location: ../404.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +32,10 @@
     <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet" />
     <!-- Custom styles for this page -->
     <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../assets/lightbox2/css/lightbox.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 </head>
 
 <body id="page-top">
@@ -49,6 +65,12 @@
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
+            </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item <?= $_SESSION['menu'] == 'kriteria' ? 'active':'';?>">
+                <a class="nav-link" href="./kriteria.php">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Kriteria</span></a>
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item <?= $_SESSION['menu'] == 'referensi' ? 'active':'';?>">
@@ -93,26 +115,14 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="../assets/img-profile rounded-circle" src="img/undraw_profile.svg" />
+                                <span class="d-none d-lg-inline text-gray-600 small"><?=$_SESSION['username'];?></span>
+                                <img class="rounded-circle mr-5" src="../assets/img/undraw_profile_2.svg" />
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../auth/logout.php">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>

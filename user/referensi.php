@@ -2,15 +2,35 @@
 session_start();
 unset($_SESSION['menu']);
 $_SESSION['menu'] = 'referensi';
+require_once './header.php';
+require_once './functions/alternatif.php';
+
+$dataAlternatif = $getDataAlternatif->getDataAlternatif();
+if(isset($_POST['simpan'])){
+    $namaAlternatif = htmlspecialchars($_POST['nama_alternatif']);
+    $latitude = htmlspecialchars($_POST['latitude']);
+    $longitude = htmlspecialchars($_POST['longitude']);
+    $alamat = htmlspecialchars($_POST['alamat']);
+
+    $data = [
+        'nama_alternatif' => $namaAlternatif,
+        'latitude' =>$latitude,
+        'longitude' => $longitude,
+        'alamat' => $alamat
+    ];
+
+    $getDataAlternatif->tambahAlternatif($data);
+}   
+
+if(isset($_POST['hapus'])){
+    $idAlternatif = htmlspecialchars($_POST['id_alternatif']);
+    $getDataAlternatif->hapusAlternatif($idAlternatif);
+}
 ?>
-<?php require_once './header.php';?>
 <div class="row">
     <!-- Area Chart -->
     <!-- Button trigger modal -->
     <div class="col-lg-12">
-        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
-            + Tambah data
-        </button>
         <div class="card">
             <!-- <div class="card-header">
                 Featured
@@ -23,44 +43,45 @@ $_SESSION['menu'] = 'referensi';
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered nowrap" id="dataLemari" style="width:100%"
+                                cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Lemari</th>
+                                        <th>Gambar</th>
+                                        <th>Tipe</th>
+                                        <th>Harga</th>
+                                        <th>Kualitas</th>
+                                        <th>Volume</th>
+                                        <th>Kelengkapan</th>
+                                        <th>Merek</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach ($dataAlternatif as $key => $alternatif):?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>System Architect</td>
+                                        <td><?=$key+1?></td>
+                                        <td><?=$alternatif['nama_alternatif'];?></td>
+                                        <td><a href="../images/<?=$alternatif['gambar'];?>" data-lightbox="image-1"
+                                                data-title="<?=$alternatif['nama_alternatif'];?>">
+                                                <img style="width: 50px; height: 50px;"
+                                                    src="../images/<?=$alternatif['gambar'];?>"
+                                                    alt="Gambar <?=$alternatif['nama_alternatif'];?>">
+                                            </a></td>
+                                        <td>61</td>
+                                        <td><?=$alternatif['nama_C1'];?></td>
+                                        <td><?=$alternatif['nama_C2'];?></td>
+                                        <td><?=$alternatif['nama_C3'];?></td>
+                                        <td><?=$alternatif['nama_C4'];?></td>
+                                        <td><?=$alternatif['nama_C5'];?></td>
                                     </tr>
+                                    <?php endforeach;?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
