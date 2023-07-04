@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Jul 2023 pada 09.39
+-- Waktu pembuatan: 04 Jul 2023 pada 10.16
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -30,19 +30,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `alternatif` (
   `id_alternatif` int(11) NOT NULL,
   `nama_alternatif` varchar(50) NOT NULL,
-  `gambar` varchar(100) NOT NULL
+  `gambar` varchar(100) NOT NULL,
+  `design` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `alternatif`
 --
 
-INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `gambar`) VALUES
-(1, 'Hamster LP 202', '1.jpg'),
-(2, 'JAZZ LP 301', '2.jpg'),
-(3, 'SPIN SL 80', '3.jpg'),
-(4, 'Primo BL 120', '4.jpg'),
-(5, 'SLIDE 211', '5.jpg');
+INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `gambar`, `design`) VALUES
+(1, 'Hamster LP 202', '1.jpg', 'Motif'),
+(2, 'JAZZ LP 301', '2.jpg', 'Warna'),
+(3, 'SPIN SL 80', '3.jpg', 'Motif'),
+(4, 'Primo BL 120', '4.jpg', 'Motif'),
+(5, 'SLIDE 211', '5.jpg', 'Warna');
 
 -- --------------------------------------------------------
 
@@ -65,7 +66,7 @@ CREATE TABLE `bobot_kriteria` (
 --
 
 INSERT INTO `bobot_kriteria` (`id_bobot`, `C1`, `C2`, `C3`, `C4`, `C5`, `f_id_user`) VALUES
-(2, 0.2, 0.2, 0.3, 0.1, 0.2, 7);
+(2, 0.2, 0.3, 0.2, 0.2, 0.1, 7);
 
 -- --------------------------------------------------------
 
@@ -194,7 +195,7 @@ CREATE TABLE `tabel_tampung` (
 --
 
 INSERT INTO `tabel_tampung` (`id`, `prio1`, `prio2`, `prio3`, `prio4`, `prio5`, `f_id_user`) VALUES
-(2, 'Volume', 'Kualitas', 'Merek', 'Harga', 'Kelengkapan', 7);
+(2, 'Kualitas', 'Volume', 'Harga', 'Kelengkapan', 'Merek', 7);
 
 -- --------------------------------------------------------
 
@@ -278,7 +279,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `bobot_kriteria`
@@ -290,7 +291,7 @@ ALTER TABLE `bobot_kriteria`
 -- AUTO_INCREMENT untuk tabel `kec_alt_kriteria`
 --
 ALTER TABLE `kec_alt_kriteria`
-  MODIFY `id_alt_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id_alt_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT untuk tabel `sub_kriteria`
