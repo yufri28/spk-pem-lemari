@@ -1,4 +1,0 @@
-1. Hapus User pada admin 
-2. Perhitungan 
-3. Halaman Utama 
-4. Menu Daftar
