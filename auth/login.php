@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-lg-6 mb-5 mb-lg-0">
                         <h1 class="my-5 display-3 fw-bold ls-tight">
                             Sistem Pendukung Keputusan <br />
-                            <span class="text-primary">Pemilihan Lemari</span>
+                            <span style="color:#57C5B6">Pemilihan Lemari</span>
                         </h1>
                         <h4 style="color: hsl(217, 10%, 50.8%)">
                             Sistem pendukung keputusan menggunakan metode <i style="color:#116A7B">Multi-Attribute
@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-lg-6 mb-5 mb-lg-0">
                         <div class="card">
                             <div class="card-body py-5 px-md-5">
-                                <h1 class="mt-2 mb-5">Login Form</h1>
+                                <h1 class="mt-2 text-center mb-5">LOGIN</h1>
                                 <form method="post" action="">
                                     <!-- Email input -->
                                     <div class="form-outline mb-4">
@@ -124,10 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             class="form-control" />
                                     </div>
                                     <!-- Submit button -->
-                                    <button type="submit" name="login" class="btn col-12 btn-primary btn-block mb-2">
+                                    <button type="submit" name="login"
+                                        class="btn px-2 py-3 col-12 btn-primary btn-block mb-2">
                                         Login
                                     </button>
-                                    <a href="../daftar.php" class="btn col-12 btn-danger btn-block mb-4">
+                                    <a href="../daftar.php" class="btn px-2 py-3 col-12 btn-secondary btn-block mb-4">
                                         Daftar
                                     </a>
                                 </form>

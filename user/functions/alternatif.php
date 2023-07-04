@@ -12,7 +12,7 @@
 
         public function getDataAlternatif()
         {
-            return $this->db->query("SELECT a.nama_alternatif, a.id_alternatif, a.gambar, kak.id_alt_kriteria,
+            return $this->db->query("SELECT a.nama_alternatif, a.id_alternatif, a.gambar, a.design, kak.id_alt_kriteria,
             MAX(CASE WHEN k.nama_kriteria = 'Harga' THEN kak.id_alt_kriteria END) AS id_alt_C1,
             MIN(CASE WHEN k.nama_kriteria = 'Kualitas' THEN kak.id_alt_kriteria END) AS id_alt_C2,
             MIN(CASE WHEN k.nama_kriteria = 'Volume' THEN kak.id_alt_kriteria END) AS id_alt_C3,
@@ -34,32 +34,6 @@
             JOIN kriteria k ON kak.f_id_kriteria = k.id_kriteria
             GROUP BY a.nama_alternatif ORDER BY a.id_alternatif DESC;");
         }
-
-        public function tambahAlternatif($dataAlternatif)
-        {
-            $stmtInsert = $this->db->prepare("INSERT INTO alternatif(nama_alternatif,alamat,latitude,longitude) VALUES(?,?,?,?)");
-            $stmtInsert->bind_param("ssss", $dataAlternatif['nama_alternatif'],$dataAlternatif['alamat'],$dataAlternatif['latitude'],$dataAlternatif['longitude']);
-            $stmtInsert->execute();
-            if($stmtInsert){
-                return $_SESSION['success'] = 'Data berhasil disimpan!';
-            }else{
-                return $_SESSION['error'] = 'Terjadi kesalahan dalam menyimpan data.';
-            }
-            $stmtInsert->close();
-        }
-
-        public function hapusAlternatif($id) {
-            $stmtDelete = $this->db->prepare("DELETE FROM alternatif WHERE id_alternatif=?");
-            $stmtDelete->bind_param("i", $id);
-            $stmtDelete->execute();
-            if($stmtDelete){
-                return $_SESSION['success'] = 'Data berhasil dihapus!';
-            }else{
-                return $_SESSION['error'] = 'Terjadi kesalahan dalam menghapus data.';
-            }
-            $stmtDelete->close();
-        }
-
     }
 
     $getDataAlternatif = new Alternatif();

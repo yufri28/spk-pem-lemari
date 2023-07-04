@@ -9,7 +9,7 @@
         }
 
         public function getLemari(){
-            return $this->db->query("SELECT a.nama_alternatif, a.id_alternatif, a.gambar, kak.id_alt_kriteria,
+            return $this->db->query("SELECT a.nama_alternatif, a.id_alternatif, a.gambar, a.design, kak.id_alt_kriteria,
                 MAX(CASE WHEN k.nama_kriteria = 'Harga' THEN kak.id_alt_kriteria END) AS id_alt_C1,
                 MIN(CASE WHEN k.nama_kriteria = 'Kualitas' THEN kak.id_alt_kriteria END) AS id_alt_C2,
                 MIN(CASE WHEN k.nama_kriteria = 'Volume' THEN kak.id_alt_kriteria END) AS id_alt_C3,
@@ -73,6 +73,7 @@
 
             $nama_alternatif = $dataAlternatif['nama_alternatif'];
             $gambar = $dataAlternatif['gambar'];
+            $design = $dataAlternatif['design'];
 
             $cekData = $this->db->query("SELECT * FROM `alternatif` WHERE LOWER(nama_alternatif) = '" . strtolower($dataAlternatif['nama_alternatif']) . "'");
             if ($cekData->num_rows > 0) {
@@ -80,7 +81,7 @@
             }
 
             $insertAlternatif = $this->db->query(
-                "INSERT INTO alternatif (id_alternatif, nama_alternatif, gambar) VALUES (NULL, '$nama_alternatif', '$gambar')"
+                "INSERT INTO alternatif (id_alternatif, nama_alternatif, gambar,design) VALUES (NULL, '$nama_alternatif', '$gambar','$design')"
             );
 
             if ($insertAlternatif) {
@@ -106,8 +107,9 @@
             $id_alternatif = $dataAlternatif['id_alternatif'];
             $nama_alternatif = $dataAlternatif['nama_alternatif'];
             $gambar = $dataAlternatif['gambar'];
+            $design = $dataAlternatif['design'];
             $updateAlternatif = $this->db->query(
-                "UPDATE alternatif SET nama_alternatif = '$nama_alternatif',gambar='$gambar' WHERE id_alternatif = $id_alternatif"
+                "UPDATE alternatif SET nama_alternatif = '$nama_alternatif',gambar='$gambar',design='$design' WHERE id_alternatif = $id_alternatif"
             );
 
             if ($updateAlternatif) {

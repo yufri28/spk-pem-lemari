@@ -1,8 +1,8 @@
 <?php 
 session_start();
-if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['role'] != 1){
+if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['level'] != 1){
     header("Location: ./user/index.php");
-}else if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['role'] == 1){
+}else if(isset($_SESSION['login']) && $_SESSION['login'] == true && $_SESSION['level'] == 1){
     header("Location: ./admin/index.php");
 }
 require_once './config.php';
@@ -10,22 +10,31 @@ require_once './config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST["username"];
   $password = $_POST["password"];
-  $password_hash = password_hash($password, PASSWORD_BCRYPT);
-  // Mengecek apakah username dan password sesuai
-  $sql = "INSERT INTO user (id_user,username,password,role) VALUES (null,'$username','$password_hash',1)";
-  $result = $koneksi->query($sql);
-  if ($result) {
-    echo "<script>alert('Daftar berhasil!');</script>";
-    header("Location: ./auth/login.php");
-  } else {
-    // Login gagal, tampilkan pesan error
-    echo "<script>alert('Login gagal');</script>";
-    header("Location: login.php");
-    exit();
+
+  $cekUsername = $koneksi->query("SELECT * FROM `user` WHERE LOWER(username) = '".strtolower($username)."'");
+
+  if(mysqli_num_rows($cekUsername) > 0){
+    echo "<script>alert('Username sudah digunakan.');</script>";
+  }else{
+      $password_hash = password_hash($password, PASSWORD_BCRYPT);
+      // Mengecek apakah username dan password sesuai
+      $sql = "INSERT INTO user (id_user,username,password,level) VALUES (null,'$username','$password_hash',1)";
+      $result = $koneksi->query($sql);
+      if ($result) {
+        echo "<script>alert('Daftar berhasil!');</script>";
+        header("Location: ./auth/login.php");
+      } else {
+        // Login gagal, tampilkan pesan error
+        echo "<script>alert('Login gagal');</script>";
+        header("Location: login.php");
+        exit();
+      }
   }
+  
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,18 +64,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-lg-6 mb-5 mb-lg-0">
                         <h1 class="my-5 display-3 fw-bold ls-tight">
                             Sistem Pendukung Keputusan <br />
-                            <span class="text-primary">Pemilihan Kost</span>
+                            <span style="color:#57C5B6">Pemilihan Lemari</span>
                         </h1>
                         <h4 style="color: hsl(217, 10%, 50.8%)">
-                            Sistem pendukung keputusan menggunakan metode <i style="color:#116A7B">Simple Additive
-                                Weighting</i>
+                            Sistem pendukung keputusan menggunakan metode <i style="color:#116A7B">Multi-Attribute
+                                Utility Theory (MAUT)</i>
                         </h4>
                     </div>
 
                     <div class="col-lg-6 mb-5 mb-lg-0">
                         <div class="card">
                             <div class="card-body py-5 px-md-5">
-                                <h1 class="mt-2 mb-5">Daftar Akun</h1>
+                                <h1 class="mt-2 text-center mb-5">REGISTRASI</h1>
                                 <form method="post" action="">
                                     <!-- Email input -->
                                     <div class="form-outline mb-4">
@@ -82,10 +91,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             class="form-control" />
                                     </div>
                                     <!-- Submit button -->
-                                    <button type="submit" name="daftar" class="btn col-12 btn-primary btn-block mb-2">
+                                    <button type="submit" name="daftar"
+                                        class="btn px-2 py-3 col-12 btn-primary btn-block mb-2">
                                         Daftar
                                     </button>
-                                    <a href="./auth/login.php" class="btn col-12 btn-danger btn-block mb-4">
+                                    <a href="./auth/login.php"
+                                        class="btn px-2 py-3 col-12 btn-secondary btn-block mb-4">
                                         Login
                                     </a>
                                 </form>

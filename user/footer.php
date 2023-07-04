@@ -85,6 +85,24 @@ $(document).ready(function() {
         "scrollX": true,
         "scrollY": true,
     });
+    var table = $('#normbobot').DataTable({
+        responsive: true,
+        "lengthMenu": [
+            [5, 10, 15, 20, 100, -1],
+            [5, 10, 15, 20, 100, "All"]
+        ],
+        "scrollX": true,
+        "scrollY": true,
+    });
+    var table = $('#utilitas').DataTable({
+        responsive: true,
+        "lengthMenu": [
+            [5, 10, 15, 20, 100, -1],
+            [5, 10, 15, 20, 100, "All"]
+        ],
+        "scrollX": true,
+        "scrollY": true,
+    });
     // new $.fn.dataTable.FixedHeader(table);
 });
 </script>

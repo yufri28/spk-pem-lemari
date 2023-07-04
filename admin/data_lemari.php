@@ -10,10 +10,12 @@ $dataSubKualitas = $Lemari->getSubKualitas();
 $dataSubVolume = $Lemari->getSubVolume();
 $dataSubKelengkapan = $Lemari->getSubKelengkapan();
 $dataSubMerek = $Lemari->getSubMerek();
+$dataDesign = ['Motif', 'Warna'];
 
 // tambah alternatif/lemari
 if(isset($_POST['tambah'])){
     $nama_alternatif = htmlspecialchars($_POST['nama_alternatif']);
+    $design = htmlspecialchars($_POST['design']);
     
     // Pastikan ada file gambar yang diunggah
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
@@ -49,7 +51,8 @@ if(isset($_POST['tambah'])){
         
             $dataLemari = [
                 'nama_alternatif' => $nama_alternatif,
-                'gambar' => $namaFile
+                'gambar' => $namaFile,
+                'design' => $design
             ];
             
             $dataKecAltKrit = [
@@ -72,6 +75,7 @@ if(isset($_POST['tambah'])){
 if(isset($_POST['edit'])){
     $id_alternatif = htmlspecialchars($_POST['id_alternatif']);
     $nama_alternatif = htmlspecialchars($_POST['nama_alternatif']);
+    $design = htmlspecialchars($_POST['design']);
     
     // Pastikan ada file gambar yang diunggah
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
@@ -115,7 +119,8 @@ if(isset($_POST['edit'])){
             $dataLemari = [
                 'id_alternatif' => $id_alternatif,
                 'nama_alternatif' => $nama_alternatif,
-                'gambar' => $namaFile
+                'gambar' => $namaFile,
+                'design' => $design
             ];
             
             $dataKecAltKrit = [
@@ -139,7 +144,8 @@ if(isset($_POST['edit'])){
         $dataLemari = [
             'id_alternatif' => $id_alternatif,
             'nama_alternatif' => $nama_alternatif,
-            'gambar' => $_POST['gambar_lama']
+            'gambar' => $_POST['gambar_lama'],
+            'design' => $design
         ];
         
         $dataKecAltKrit = [
@@ -216,7 +222,7 @@ Swal.fire({
                                         <th>No</th>
                                         <th>Nama Lemari</th>
                                         <th>Gambar</th>
-                                        <th>Tipe</th>
+                                        <th>Design</th>
                                         <th>Harga</th>
                                         <th>Kualitas</th>
                                         <th>Volume</th>
@@ -236,7 +242,7 @@ Swal.fire({
                                                     src="../images/<?=$alternatif['gambar'];?>"
                                                     alt="Gambar <?=$alternatif['nama_alternatif'];?>">
                                             </a></td>
-                                        <td>61</td>
+                                        <td><?=$alternatif['design'];?></td>
                                         <td><?=$alternatif['nama_C1'];?></td>
                                         <td><?=$alternatif['nama_C2'];?></td>
                                         <td><?=$alternatif['nama_C3'];?></td>
@@ -288,6 +294,16 @@ Swal.fire({
                             <label for="gambar" class="form-label">Gambar <small class="text-danger">*</small></label>
                             <input type="file" accept=".jpg, .jpeg, .png" class="form-control" name="gambar" id="gambar"
                                 required placeholder="Gambar" />
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <label for="design" class="form-label">Design <small class="text-danger">*</small></label>
+                            <select class="form-control" name="design" required aria-label="Default select example">
+                                <option value="">-- Pilih Design --</option>
+                                <option value="Motif">Motif</option>
+                                <option value="Warna">Warna</option>
+                            </select>
                         </div>
                     </div>
                     <div class="card-body">
@@ -394,6 +410,18 @@ Swal.fire({
                             <input type="file" accept=".jpg, .jpeg, .png" class="form-control"
                                 value="<?=$alternatif['gambar'];?>" name="gambar" id="gambar" placeholder="Gambar" />
                             <small><i>Jika gambar tidak diubah, maka tidak perlu diupload lagi.</i></small>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <label for="design" class="form-label">Design <small class="text-danger">*</small></label>
+                            <select class="form-control" name="design" required aria-label="Default select example">
+                                <option value="">-- Pilih Design --</option>
+                                <?php foreach ($dataDesign as $key => $design):?>
+                                <option <?=$design == $alternatif['design'] ? 'selected':'';?> value="<?=$design;?>">
+                                    <?=$design;?></option>
+                                <?php endforeach;?>
+                            </select>
                         </div>
                     </div>
                     <div class="card-body">

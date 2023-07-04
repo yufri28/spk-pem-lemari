@@ -63,7 +63,7 @@ $dataTampung = $koneksi->query("SELECT * FROM tabel_tampung WHERE f_id_user='$id
 <script>
 Swal.fire({
     title: 'Pesan',
-    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada kos, seperti Fasilitas, Jarak, Biaya, Luas Kamar, dan Keamanan. Misalnya Anda ingin mencari kos dengan meprioritaskan Fasilitas pada prioritas 1, Biaya pada prioritas 2, Luas Kamar pada prioritas 3, Keamanan pada prioritas 4 dan Jarak pada prioritas 5. Dari pilihan prioritas tersebut, sistem akan merekomendasikan kos dengan kriteria kos dengan Fasilitas paling bagus kemudian diikuti dengan kriteria lainnya.',
+    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada lemari yang dicari, seperti Harga, Kualitas, Volume, Kelengkapan, dan Merek. Misalnya Anda ingin mencari lemari dengan meprioritaskan Kelengkapan pada prioritas 1, Harga pada prioritas 2, Kualitas pada prioritas 3, Volume pada prioritas 4 dan Merek pada prioritas 5. Dari pilihan prioritas tersebut, sistem akan merekomendasikan lemari dengan kriteria lemari dengan kelengkapan paling banyak kemudian diikuti dengan kriteria lainnya.',
     icon: 'warning',
     confirmButtonText: 'Paham'
 });

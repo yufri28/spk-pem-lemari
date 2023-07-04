@@ -64,8 +64,8 @@ Swal.fire({
                                     <td>******</td>
                                     <td><?= $user['level'] == 0 ? 'Admin':'Pengguna';?></td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#hapus<?= $user['id_user'];?>">
+                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                            data-target="#hapus<?= $user['id_user'];?>">
                                             Hapus
                                         </button>
                                     </td>

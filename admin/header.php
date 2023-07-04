@@ -20,7 +20,7 @@ else if($_SESSION['level'] != 0){
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>SPK Pemilihan Lemari - Dashboard</title>
+    <title>SPK Pemilihan Lemari</title>
 
     <!-- Custom fonts for this template-->
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
@@ -43,7 +43,7 @@ else if($_SESSION['level'] != 0){
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <div class="sidebar-brand-icon rotate-n-15" style="display: none">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -53,11 +53,11 @@ else if($_SESSION['level'] != 0){
             <!-- Divider -->
             <hr class="sidebar-divider my-0" />
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Admin <sup>Genio</sup></div>
+                <div class="sidebar-brand-text mx-3">Admin <sup><?=$_SESSION['username'];?></sup></div>
             </a>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $_SESSION['menu'] == 'index' ? 'active':'';?>">

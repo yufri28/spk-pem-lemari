@@ -50,7 +50,7 @@ if(isset($_POST['hapus'])){
                                         <th>No</th>
                                         <th>Nama Lemari</th>
                                         <th>Gambar</th>
-                                        <th>Tipe</th>
+                                        <th>Design</th>
                                         <th>Harga</th>
                                         <th>Kualitas</th>
                                         <th>Volume</th>
@@ -69,7 +69,7 @@ if(isset($_POST['hapus'])){
                                                     src="../images/<?=$alternatif['gambar'];?>"
                                                     alt="Gambar <?=$alternatif['nama_alternatif'];?>">
                                             </a></td>
-                                        <td>61</td>
+                                        <td><?=$alternatif['design'];?></td>
                                         <td><?=$alternatif['nama_C1'];?></td>
                                         <td><?=$alternatif['nama_C2'];?></td>
                                         <td><?=$alternatif['nama_C3'];?></td>
