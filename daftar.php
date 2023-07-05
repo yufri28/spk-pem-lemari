@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $sql = "INSERT INTO user (id_user,username,password,level) VALUES (null,'$username','$password_hash',1)";
       $result = $koneksi->query($sql);
       if ($result) {
+        $_SESSION['success'] = "Daftar berhasil. Silahkan Login";
         echo "<script>alert('Daftar berhasil!');</script>";
         header("Location: ./auth/login.php");
       } else {

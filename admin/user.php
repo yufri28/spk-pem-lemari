@@ -56,10 +56,11 @@ Swal.fire({
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
+                                <?php $i = 1;?>
                                 <?php foreach ($users as $key => $user):?>
                                 <?php if($user['level'] != 0):?>
                                 <tr>
-                                    <th scope="row"><?=$key+1;?></th>
+                                    <th scope="row"><?=$i++;?></th>
                                     <td><?= $user['username'];?></td>
                                     <td>******</td>
                                     <td><?= $user['level'] == 0 ? 'Admin':'Pengguna';?></td>
