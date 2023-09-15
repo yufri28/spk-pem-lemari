@@ -9,22 +9,19 @@
         }
 
         public function getLemari(){
-            return $this->db->query("SELECT a.nama_alternatif, a.id_alternatif, a.gambar, a.design, kak.id_alt_kriteria,
+            return $this->db->query("SELECT a.nama_alternatif, a.id_alternatif, a.gambar, a.merek, a.design, kak.id_alt_kriteria,
                 MAX(CASE WHEN k.nama_kriteria = 'Harga' THEN kak.id_alt_kriteria END) AS id_alt_C1,
                 MIN(CASE WHEN k.nama_kriteria = 'Kualitas' THEN kak.id_alt_kriteria END) AS id_alt_C2,
                 MIN(CASE WHEN k.nama_kriteria = 'Volume' THEN kak.id_alt_kriteria END) AS id_alt_C3,
                 MAX(CASE WHEN k.nama_kriteria = 'Kelengkapan' THEN kak.id_alt_kriteria END) AS id_alt_C4,
-                MAX(CASE WHEN k.nama_kriteria = 'Merek' THEN kak.id_alt_kriteria END) AS id_alt_C5,
                 MAX(CASE WHEN k.nama_kriteria = 'Harga' THEN kak.f_id_sub_kriteria END) AS id_sub_C1,
                 MIN(CASE WHEN k.nama_kriteria = 'Kualitas' THEN kak.f_id_sub_kriteria END) AS id_sub_C2,
                 MIN(CASE WHEN k.nama_kriteria = 'Volume' THEN kak.f_id_sub_kriteria END) AS id_sub_C3,
                 MAX(CASE WHEN k.nama_kriteria = 'Kelengkapan' THEN kak.f_id_sub_kriteria END) AS id_sub_C4,
-                MAX(CASE WHEN k.nama_kriteria = 'Merek' THEN kak.f_id_sub_kriteria END) AS id_sub_C5,
                 MAX(CASE WHEN k.nama_kriteria = 'Harga' THEN sk.nama_sub_kriteria END) AS nama_C1,
                 MIN(CASE WHEN k.nama_kriteria = 'Kualitas' THEN sk.nama_sub_kriteria END) AS nama_C2,
                 MIN(CASE WHEN k.nama_kriteria = 'Volume' THEN sk.nama_sub_kriteria END) AS nama_C3,
-                MAX(CASE WHEN k.nama_kriteria = 'Kelengkapan' THEN sk.nama_sub_kriteria END) AS nama_C4,
-                MAX(CASE WHEN k.nama_kriteria = 'Merek' THEN sk.nama_sub_kriteria END) AS nama_C5
+                MAX(CASE WHEN k.nama_kriteria = 'Kelengkapan' THEN sk.nama_sub_kriteria END) AS nama_C4
                 FROM alternatif a
                 JOIN kec_alt_kriteria kak ON a.id_alternatif = kak.f_id_alternatif
                 JOIN sub_kriteria sk ON kak.f_id_sub_kriteria = sk.id_sub_kriteria
@@ -55,14 +52,7 @@
            return $this->db->query(
                 "SELECT * FROM sub_kriteria WHERE f_id_kriteria = 'C4'"
            );
-        }
-        public function getSubMerek()
-        {
-           return $this->db->query(
-                "SELECT * FROM sub_kriteria WHERE f_id_kriteria = 'C5'"
-           );
-        }
-
+        } 
 
         // CRUD
         public function addDataLemari($dataAlternatif = [], $dataKecAltKrit = [])
@@ -74,6 +64,7 @@
             $nama_alternatif = $dataAlternatif['nama_alternatif'];
             $gambar = $dataAlternatif['gambar'];
             $design = $dataAlternatif['design'];
+            $merek = $dataAlternatif['merek'];
 
             $cekData = $this->db->query("SELECT * FROM `alternatif` WHERE LOWER(nama_alternatif) = '" . strtolower($dataAlternatif['nama_alternatif']) . "'");
             if ($cekData->num_rows > 0) {
@@ -81,7 +72,7 @@
             }
 
             $insertAlternatif = $this->db->query(
-                "INSERT INTO alternatif (id_alternatif, nama_alternatif, gambar,design) VALUES (NULL, '$nama_alternatif', '$gambar','$design')"
+                "INSERT INTO alternatif (id_alternatif, nama_alternatif, gambar,design,merek) VALUES (NULL, '$nama_alternatif', '$gambar','$design','$merek')"
             );
 
             if ($insertAlternatif) {
@@ -108,8 +99,9 @@
             $nama_alternatif = $dataAlternatif['nama_alternatif'];
             $gambar = $dataAlternatif['gambar'];
             $design = $dataAlternatif['design'];
+            $merek = $dataAlternatif['merek'];
             $updateAlternatif = $this->db->query(
-                "UPDATE alternatif SET nama_alternatif = '$nama_alternatif',gambar='$gambar',design='$design' WHERE id_alternatif = $id_alternatif"
+                "UPDATE alternatif SET nama_alternatif = '$nama_alternatif',gambar='$gambar',design='$design',merek='$merek' WHERE id_alternatif = $id_alternatif"
             );
 
             if ($updateAlternatif) {

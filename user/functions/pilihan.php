@@ -1,5 +1,5 @@
 <?php 
-$kriteria = ["Harga", "Kualitas", "Volume", "Kelengkapan", "Merek"];
+$kriteria = ["Harga", "Kualitas", "Volume", "Kelengkapan"];
 if(isset($_POST['prioritas_1'])){
     echo "<option value=''>-- Pilih prioritas 2 --</option>";
     $selectedOptions = $_POST['prioritas_1']; 
@@ -25,13 +25,6 @@ if(isset($_POST['prioritas_3'])){
         echo "<option value='$option'>$option</option>";
     }
 }
-if(isset($_POST['prioritas_4'])){
-    echo "<option value=''>-- Pilih prioritas 5 --</option>";
-    $selectedOptions = $_POST['prioritas_4']; 
-    $filteredOptions = array_diff($kriteria, $selectedOptions);
-    foreach ($filteredOptions as $option) {
-        echo "<option value='$option'>$option</option>";
-    }
-}
+
 
 ?>

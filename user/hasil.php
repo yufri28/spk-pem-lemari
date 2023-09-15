@@ -70,7 +70,7 @@ Swal.fire({
                                         <td><?=$preferensi['nama_C2'];?></td>
                                         <td><?=$preferensi['nama_C3'];?></td>
                                         <td><?=$preferensi['nama_C4'];?></td>
-                                        <td><?=$preferensi['nama_C5'];?></td>
+                                        <td><?= $preferensi['merek'] != NULL ? $preferensi['merek']:'-';?></td>
                                         <td><?=$preferensi['preferensi'];?></td>
                                     </tr>
                                     <?php endforeach;?>

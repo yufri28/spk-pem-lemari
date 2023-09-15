@@ -19,7 +19,6 @@ class Kriteria{
         $C2 = 0;
         $C3 = 0;
         $C4 = 0;
-        $C5 = 0;
         foreach ($dataPenilaian as $key => $value) {
            switch ($key) {
             case "Harga":
@@ -34,9 +33,6 @@ class Kriteria{
             case "Kelengkapan":
                 $C4 = $value;
                 break;
-            case "Merek":
-                $C5 = $value;
-                break;
            }
         }
         $stmt = $this->db->prepare("SELECT * FROM bobot_kriteria WHERE f_id_user=?");
@@ -44,7 +40,7 @@ class Kriteria{
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows <= 0) {
-            $stmtInsert = $this->db->query("INSERT INTO bobot_kriteria (id_bobot, C1, C2, C3, C4, C5, f_id_user) VALUES (NULL, '$C1', '$C2', '$C3', '$C4', '$C5', '$id_user')");
+            $stmtInsert = $this->db->query("INSERT INTO bobot_kriteria (id_bobot, C1, C2, C3, C4, f_id_user) VALUES (NULL, '$C1', '$C2', '$C3', '$C4', '$id_user')");
             if($stmtInsert){
                 return $_SESSION['success'] = 'Data berhasil ditambahkan!';
             }else{
@@ -62,7 +58,6 @@ class Kriteria{
         $C2 = 0;
         $C3 = 0;
         $C4 = 0;
-        $C5 = 0;
         foreach ($dataPenilaian as $key => $value) {
            switch ($key) {
             case "Harga":
@@ -77,12 +72,9 @@ class Kriteria{
             case "Kelengkapan":
                 $C4 = $value;
                 break;
-            case "Merek":
-                $C5 = $value;
-                break;
            }
         }
-        $update = $this->db->query("UPDATE bobot_kriteria SET C1=$C1,C2=$C2,C3=$C3,C4=$C4,C5=$C5 WHERE id_bobot='$id_bobot'");
+        $update = $this->db->query("UPDATE bobot_kriteria SET C1=$C1,C2=$C2,C3=$C3,C4=$C4 WHERE id_bobot='$id_bobot'");
         if($update){
             return $_SESSION['success'] = 'Data berhasil diedit!';
         }else{
@@ -94,9 +86,8 @@ class Kriteria{
         $C1 = $dataTampung[0];
         $C2 =  $dataTampung[1];
         $C3 =  $dataTampung[2];
-        $C4 =  $dataTampung[3];
-        $C5 =  $dataTampung[4];
-        $this->db->query("INSERT INTO tabel_tampung (id, prio1, prio2, prio3, prio4, prio5, f_id_user) VALUES (NULL, '$C1', '$C2', '$C3', '$C4', '$C5', '$id_user')");
+        $C4 =  $dataTampung[3]; 
+        $this->db->query("INSERT INTO tabel_tampung (id, prio1, prio2, prio3, prio4, f_id_user) VALUES (NULL, '$C1', '$C2', '$C3', '$C4', '$id_user')");
     }
     public function editTampung($id,$dataTampung)
     {
@@ -104,9 +95,8 @@ class Kriteria{
         $C2 =  $dataTampung[1];
         $C3 =  $dataTampung[2];
         $C4 =  $dataTampung[3];
-        $C5 =  $dataTampung[4];
 
-        $this->db->query("UPDATE tabel_tampung SET prio1='$C1',prio2='$C2',prio3='$C3',prio4='$C4',prio5='$C5' WHERE id='$id'");
+        $this->db->query("UPDATE tabel_tampung SET prio1='$C1',prio2='$C2',prio3='$C3',prio4='$C4' WHERE id='$id'");
     }
 
 }

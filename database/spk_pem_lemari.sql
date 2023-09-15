@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Jul 2023 pada 10.16
+-- Waktu pembuatan: 15 Sep 2023 pada 16.49
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -31,19 +31,20 @@ CREATE TABLE `alternatif` (
   `id_alternatif` int(11) NOT NULL,
   `nama_alternatif` varchar(50) NOT NULL,
   `gambar` varchar(100) NOT NULL,
-  `design` varchar(10) NOT NULL
+  `design` varchar(10) NOT NULL,
+  `merek` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `alternatif`
 --
 
-INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `gambar`, `design`) VALUES
-(1, 'Hamster LP 202', '1.jpg', 'Motif'),
-(2, 'JAZZ LP 301', '2.jpg', 'Warna'),
-(3, 'SPIN SL 80', '3.jpg', 'Motif'),
-(4, 'Primo BL 120', '4.jpg', 'Motif'),
-(5, 'SLIDE 211', '5.jpg', 'Warna');
+INSERT INTO `alternatif` (`id_alternatif`, `nama_alternatif`, `gambar`, `design`, `merek`) VALUES
+(1, 'Hamster LP 202', '1.jpg', 'Motif', 'Olympic'),
+(2, 'JAZZ LP 301', '2.jpg', 'Warna', 'Volare'),
+(3, 'SPIN SL 80', '3.jpg', 'Motif', 'Pire'),
+(4, 'Primo BL 120', '4.jpg', 'Motif', 'Pire'),
+(5, 'SLIDE 211', '5.jpg', 'Warna', 'Pro Design');
 
 -- --------------------------------------------------------
 
@@ -57,7 +58,6 @@ CREATE TABLE `bobot_kriteria` (
   `C2` float NOT NULL,
   `C3` float NOT NULL,
   `C4` float NOT NULL,
-  `C5` float NOT NULL,
   `f_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -65,8 +65,8 @@ CREATE TABLE `bobot_kriteria` (
 -- Dumping data untuk tabel `bobot_kriteria`
 --
 
-INSERT INTO `bobot_kriteria` (`id_bobot`, `C1`, `C2`, `C3`, `C4`, `C5`, `f_id_user`) VALUES
-(2, 0.2, 0.3, 0.2, 0.2, 0.1, 7);
+INSERT INTO `bobot_kriteria` (`id_bobot`, `C1`, `C2`, `C3`, `C4`, `f_id_user`) VALUES
+(2, 0.3, 0.1, 0.4, 0.2, 7);
 
 -- --------------------------------------------------------
 
@@ -105,12 +105,7 @@ INSERT INTO `kec_alt_kriteria` (`id_alt_kriteria`, `f_id_alternatif`, `f_id_krit
 (21, 5, 'C1', 4),
 (22, 5, 'C2', 10),
 (23, 5, 'C3', 15),
-(24, 5, 'C4', 16),
-(56, 1, 'C5', 31),
-(57, 2, 'C5', 33),
-(58, 4, 'C5', 33),
-(59, 5, 'C5', 32),
-(60, 3, 'C5', 31);
+(24, 5, 'C4', 16);
 
 -- --------------------------------------------------------
 
@@ -131,8 +126,7 @@ INSERT INTO `kriteria` (`id_kriteria`, `nama_kriteria`) VALUES
 ('C1', 'Harga'),
 ('C2', 'Kualitas'),
 ('C3', 'Volume'),
-('C4', 'Kelengkapan'),
-('C5', 'Merek');
+('C4', 'Kelengkapan');
 
 -- --------------------------------------------------------
 
@@ -167,12 +161,7 @@ INSERT INTO `sub_kriteria` (`id_sub_kriteria`, `nama_sub_kriteria`, `bobot_sub_k
 (16, '4 kelengkapan', 4, 'C4'),
 (17, '3 kelengkapan', 3, 'C4'),
 (18, '2 kelengkapan', 2, 'C4'),
-(19, '1 kelengkapan', 1, 'C4'),
-(29, 'Pro design', 5, 'C5'),
-(30, 'Active', 4, 'C5'),
-(31, 'Olympic', 3, 'C5'),
-(32, 'Volare', 2, 'C5'),
-(33, 'Pire', 1, 'C5');
+(19, '1 kelengkapan', 1, 'C4');
 
 -- --------------------------------------------------------
 
@@ -186,7 +175,6 @@ CREATE TABLE `tabel_tampung` (
   `prio2` varchar(50) NOT NULL,
   `prio3` varchar(50) NOT NULL,
   `prio4` varchar(50) NOT NULL,
-  `prio5` varchar(50) NOT NULL,
   `f_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -194,8 +182,8 @@ CREATE TABLE `tabel_tampung` (
 -- Dumping data untuk tabel `tabel_tampung`
 --
 
-INSERT INTO `tabel_tampung` (`id`, `prio1`, `prio2`, `prio3`, `prio4`, `prio5`, `f_id_user`) VALUES
-(2, 'Kualitas', 'Volume', 'Harga', 'Kelengkapan', 'Merek', 7);
+INSERT INTO `tabel_tampung` (`id`, `prio1`, `prio2`, `prio3`, `prio4`, `f_id_user`) VALUES
+(2, 'Volume', 'Harga', 'Kelengkapan', 'Kualitas', 7);
 
 -- --------------------------------------------------------
 
@@ -279,7 +267,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_alternatif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `bobot_kriteria`
@@ -291,7 +279,7 @@ ALTER TABLE `bobot_kriteria`
 -- AUTO_INCREMENT untuk tabel `kec_alt_kriteria`
 --
 ALTER TABLE `kec_alt_kriteria`
-  MODIFY `id_alt_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_alt_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT untuk tabel `sub_kriteria`
@@ -309,7 +297,7 @@ ALTER TABLE `tabel_tampung`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

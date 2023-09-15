@@ -74,7 +74,7 @@ if(isset($_POST['hapus'])){
                                         <td><?=$alternatif['nama_C2'];?></td>
                                         <td><?=$alternatif['nama_C3'];?></td>
                                         <td><?=$alternatif['nama_C4'];?></td>
-                                        <td><?=$alternatif['nama_C5'];?></td>
+                                        <td><?= $alternatif['merek'] != NULL ? $alternatif['merek']:'-';?></td>
                                     </tr>
                                     <?php endforeach;?>
                                 </tbody>

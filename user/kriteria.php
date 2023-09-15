@@ -11,17 +11,15 @@ if(isset($_POST['simpan'])){
     $prioritas2 = $_POST['prioritas_2'];
     $prioritas3 = $_POST['prioritas_3'];
     $prioritas4 = $_POST['prioritas_4'];
-    $prioritas5 = $_POST['prioritas_5'];
 
     $dataTampung = [
-        $prioritas1,$prioritas2,$prioritas3,$prioritas4,$prioritas5
+        $prioritas1,$prioritas2,$prioritas3,$prioritas4
     ];
     $dataBobotKriteria = [
-        $prioritas1 => 0.3,
-        $prioritas2 => 0.2,
+        $prioritas1 => 0.4,
+        $prioritas2 => 0.3,
         $prioritas3 => 0.2,
-        $prioritas4 => 0.2,
-        $prioritas5 => 0.1,
+        $prioritas4 => 0.1,
     ];
     $Kriteria->tambahTampung($dataTampung, $id_user);
     $tambahBobotKriteria = $Kriteria->tambahBobotKriteria($dataBobotKriteria, $id_user);
@@ -33,16 +31,15 @@ if(isset($_POST['edit'])){
     $prioritas2 = $_POST['prioritas_2'];
     $prioritas3 = $_POST['prioritas_3'];
     $prioritas4 = $_POST['prioritas_4'];
-    $prioritas5 = $_POST['prioritas_5'];
+    
     $dataTampung = [
-        $prioritas1,$prioritas2,$prioritas3,$prioritas4,$prioritas5
+        $prioritas1,$prioritas2,$prioritas3,$prioritas4
     ];
     $dataBobotKriteria = [
-        $prioritas1 => 0.3,
-        $prioritas2 => 0.2,
+        $prioritas1 => 0.4,
+        $prioritas2 => 0.3,
         $prioritas3 => 0.2,
-        $prioritas4 => 0.2,
-        $prioritas5 => 0.1,
+        $prioritas4 => 0.1,
     ];
     $tambahBobotKriteria = $Kriteria->editBobotKriteria($id_bobot,$dataBobotKriteria);
     $Kriteria->editTampung($id,$dataTampung);
@@ -51,7 +48,7 @@ if(isset($_POST['edit'])){
 $data_Kriteria = $Kriteria->getKriteria($id_user);
 $id_bobot = mysqli_fetch_assoc($data_Kriteria);
 $dataKriteria = [
-    "Harga", "Kualitas", "Volume", "Kelengkapan", "Merek"
+    "Harga", "Kualitas", "Volume", "Kelengkapan"
 ];
 
 $dataTampung = $koneksi->query("SELECT * FROM tabel_tampung WHERE f_id_user='$id_user'");
@@ -63,7 +60,7 @@ $dataTampung = $koneksi->query("SELECT * FROM tabel_tampung WHERE f_id_user='$id
 <script>
 Swal.fire({
     title: 'Pesan',
-    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada lemari yang dicari, seperti Harga, Kualitas, Volume, Kelengkapan, dan Merek. Misalnya Anda ingin mencari lemari dengan meprioritaskan Kelengkapan pada prioritas 1, Harga pada prioritas 2, Kualitas pada prioritas 3, Volume pada prioritas 4 dan Merek pada prioritas 5. Dari pilihan prioritas tersebut, sistem akan merekomendasikan lemari dengan kriteria lemari dengan kelengkapan paling banyak kemudian diikuti dengan kriteria lainnya.',
+    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada lemari yang dicari, seperti Harga, Kualitas, Volume dan Kelengkapan. Misalnya Anda ingin mencari lemari dengan meprioritaskan Kelengkapan pada prioritas 1, Harga pada prioritas 2, Kualitas pada prioritas 3 dan Volume pada prioritas 4 Dari pilihan prioritas tersebut, sistem akan merekomendasikan lemari dengan kriteria lemari dengan kelengkapan paling banyak kemudian diikuti dengan kriteria lainnya.',
     icon: 'warning',
     confirmButtonText: 'Paham'
 });
@@ -154,17 +151,6 @@ Swal.fire({
                                 <?php endforeach;?>
                             </select>
                         </div>
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_5" class="form-label">Prioritas 5</label>
-                            <select class="form-control" id="prioritas_5" name="prioritas_5">
-                                <option value="">-- Pilih prioritas 5 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option <?= $tampung['prio5'] == $kriteria ? 'selected':''?> value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
                         <button type="submit" name="edit" class="btn col-12 btn-outline-primary">
                             Simpan
                         </button>
@@ -218,17 +204,6 @@ Swal.fire({
                             <label for="prioritas_4" class="form-label">Prioritas 4</label>
                             <select class="form-control" id="prioritas_4" name="prioritas_4">
                                 <option value="">-- Pilih prioritas 4 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_5" class="form-label">Prioritas 5</label>
-                            <select class="form-control" id="prioritas_5" name="prioritas_5">
-                                <option value="">-- Pilih prioritas 5 --</option>
                                 <?php foreach($dataKriteria as $kriteria):?>
                                 <option value="<?=$kriteria;?>">
                                     <?=$kriteria;?>
@@ -326,25 +301,6 @@ $(document).ready(function() {
             success: function(msg) {
                 $("#prioritas_4").html(msg);
             }
-        });
-        $("#prioritas_4").change(function() {
-            var prioritas_1 = $("#prioritas_1").val();
-            var prioritas_2 = $("#prioritas_2").val();
-            var prioritas_3 = $("#prioritas_3").val();
-            var prioritas_4 = $("#prioritas_4").val();
-            $.ajax({
-                type: 'POST',
-                url: "./functions/pilihan.php",
-                data: {
-                    prioritas_4: [prioritas_1, prioritas_2, prioritas_3,
-                        prioritas_4
-                    ]
-                },
-                cache: false,
-                success: function(msg) {
-                    $("#prioritas_5").html(msg);
-                }
-            });
         });
     });
 });

@@ -9,13 +9,13 @@ $dataSubHarga = $Lemari->getSubHarga();
 $dataSubKualitas = $Lemari->getSubKualitas();
 $dataSubVolume = $Lemari->getSubVolume();
 $dataSubKelengkapan = $Lemari->getSubKelengkapan();
-$dataSubMerek = $Lemari->getSubMerek();
 $dataDesign = ['Motif', 'Warna'];
 
 // tambah alternatif/lemari
 if(isset($_POST['tambah'])){
     $nama_alternatif = htmlspecialchars($_POST['nama_alternatif']);
     $design = htmlspecialchars($_POST['design']);
+    $merek = htmlspecialchars($_POST['merek']);
     
     // Pastikan ada file gambar yang diunggah
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
@@ -47,20 +47,19 @@ if(isset($_POST['tambah'])){
             $kualitas = htmlspecialchars($_POST['kualitas']);
             $volume = htmlspecialchars($_POST['volume']);
             $kelengkapan = htmlspecialchars($_POST['kelengkapan']);
-            $merek = htmlspecialchars($_POST['merek']);
         
             $dataLemari = [
                 'nama_alternatif' => $nama_alternatif,
                 'gambar' => $namaFile,
-                'design' => $design
+                'design' => $design,
+                'merek' => $merek
             ];
             
             $dataKecAltKrit = [
                 'C1' => $harga,
                 'C2' => $kualitas,
                 'C3' => $volume,
-                'C4' => $kelengkapan,
-                'C5' => $merek
+                'C4' => $kelengkapan
             ];
             $Lemari->addDataLemari($dataLemari,$dataKecAltKrit);
         } else {
@@ -76,6 +75,7 @@ if(isset($_POST['edit'])){
     $id_alternatif = htmlspecialchars($_POST['id_alternatif']);
     $nama_alternatif = htmlspecialchars($_POST['nama_alternatif']);
     $design = htmlspecialchars($_POST['design']);
+    $merek = htmlspecialchars($_POST['merek']);
     
     // Pastikan ada file gambar yang diunggah
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
@@ -114,21 +114,20 @@ if(isset($_POST['edit'])){
             $kualitas = htmlspecialchars($_POST['kualitas']);
             $volume = htmlspecialchars($_POST['volume']);
             $kelengkapan = htmlspecialchars($_POST['kelengkapan']);
-            $merek = htmlspecialchars($_POST['merek']);
         
             $dataLemari = [
                 'id_alternatif' => $id_alternatif,
                 'nama_alternatif' => $nama_alternatif,
                 'gambar' => $namaFile,
-                'design' => $design
+                'design' => $design,
+                'merek' => $merek
             ];
             
             $dataKecAltKrit = [
                 'C1' => $harga,
                 'C2' => $kualitas,
                 'C3' => $volume,
-                'C4' => $kelengkapan,
-                'C5' => $merek
+                'C4' => $kelengkapan
             ];
             $Lemari->editDataLemari($dataLemari,$dataKecAltKrit);
         } else {
@@ -139,21 +138,20 @@ if(isset($_POST['edit'])){
         $kualitas = htmlspecialchars($_POST['kualitas']);
         $volume = htmlspecialchars($_POST['volume']);
         $kelengkapan = htmlspecialchars($_POST['kelengkapan']);
-        $merek = htmlspecialchars($_POST['merek']);
     
         $dataLemari = [
             'id_alternatif' => $id_alternatif,
             'nama_alternatif' => $nama_alternatif,
             'gambar' => $_POST['gambar_lama'],
-            'design' => $design
+            'design' => $design,
+            'merek' => $merek
         ];
         
         $dataKecAltKrit = [
             'C1' => $harga,
             'C2' => $kualitas,
             'C3' => $volume,
-            'C4' => $kelengkapan,
-            'C5' => $merek
+            'C4' => $kelengkapan
         ];
         $Lemari->editDataLemari($dataLemari,$dataKecAltKrit);
     }
@@ -247,7 +245,7 @@ Swal.fire({
                                         <td><?=$alternatif['nama_C2'];?></td>
                                         <td><?=$alternatif['nama_C3'];?></td>
                                         <td><?=$alternatif['nama_C4'];?></td>
-                                        <td><?=$alternatif['nama_C5'];?></td>
+                                        <td><?=$alternatif['merek'] != NULL ? $alternatif['merek']:'-';?></td>
                                         <td>
                                             <button data-toggle="modal"
                                                 data-target="#edit<?=$alternatif['id_alternatif'];?>" type="button"
@@ -294,6 +292,13 @@ Swal.fire({
                             <label for="gambar" class="form-label">Gambar <small class="text-danger">*</small></label>
                             <input type="file" accept=".jpg, .jpeg, .png" class="form-control" name="gambar" id="gambar"
                                 required placeholder="Gambar" />
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <label for="merek" class="form-label">Merek <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" name="merek" id="merek" required
+                                placeholder="Merek" />
                         </div>
                     </div>
                     <div class="card-body">
@@ -357,18 +362,6 @@ Swal.fire({
                             </select>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="">
-                            <label for="merek" class="form-label">Merek <small class="text-danger">*</small></label>
-                            <select class="form-control" name="merek" required aria-label="Default select example">
-                                <option value="">-- Pilih Merek --</option>
-                                <?php foreach ($dataSubMerek as $key => $merek):?>
-                                <option value="<?=$merek['id_sub_kriteria'];?>">
-                                    <?=$merek['nama_sub_kriteria'];?></option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -426,6 +419,13 @@ Swal.fire({
                     </div>
                     <div class="card-body">
                         <div class="">
+                            <label for="merek" class="form-label">Merek <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" value="<?=$alternatif['merek'];?>" name="merek"
+                                id="merek" required placeholder="Merek" />
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
                             <label for="harga" class="form-label">Harga <small class="text-danger">*</small></label>
                             <select class="form-control" name="harga" required aria-label="Default select example">
                                 <option value="">-- Pilih Harga --</option>
@@ -476,19 +476,6 @@ Swal.fire({
                                     <?= $kelengkapan['id_sub_kriteria'] == $alternatif['id_sub_C4'] ? 'selected':'';?>
                                     value="<?=$kelengkapan['id_sub_kriteria'];?>">
                                     <?=$kelengkapan['nama_sub_kriteria'];?></option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="">
-                            <label for="merek" class="form-label">Merek <small class="text-danger">*</small></label>
-                            <select class="form-control" name="merek" required aria-label="Default select example">
-                                <option value="">-- Pilih Merek --</option>
-                                <?php foreach ($dataSubMerek as $key => $merek):?>
-                                <option <?=$merek['id_sub_kriteria'] == $alternatif['id_sub_C5'] ? 'selected':'';?>
-                                    value="<?=$merek['id_sub_kriteria'];?>">
-                                    <?=$merek['nama_sub_kriteria'];?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>
