@@ -6,50 +6,35 @@ require_once './header.php';
 require_once './functions/kriteria.php';
 $id_user = $_SESSION['id_user'];
 
-if(isset($_POST['simpan'])){
-    $prioritas1 = $_POST['prioritas_1'];
-    $prioritas2 = $_POST['prioritas_2'];
-    $prioritas3 = $_POST['prioritas_3'];
-    $prioritas4 = $_POST['prioritas_4'];
-
-    $dataTampung = [
-        $prioritas1,$prioritas2,$prioritas3,$prioritas4
-    ];
-    $dataBobotKriteria = [
-        $prioritas1 => 0.4,
-        $prioritas2 => 0.3,
-        $prioritas3 => 0.2,
-        $prioritas4 => 0.1,
-    ];
-    $Kriteria->tambahTampung($dataTampung, $id_user);
-    $tambahBobotKriteria = $Kriteria->tambahBobotKriteria($dataBobotKriteria, $id_user);
+if(isset($_POST['t_bobot_kriteria'])){
+    $c1 = htmlspecialchars($_POST['t_bobot_kriteria'][0])/100;
+    $c2 = htmlspecialchars($_POST['t_bobot_kriteria'][1])/100;
+    $c3 = htmlspecialchars($_POST['t_bobot_kriteria'][2])/100;
+    $c4 = htmlspecialchars($_POST['t_bobot_kriteria'][3])/100;
+   
+   
+    $dataBobotKriteria = [$c1,$c2,$c3,$c4];
+    $tambahBobotKriteria = $Kriteria->tambahBobotKriteria($dataBobotKriteria,$id_user);
 }
-if(isset($_POST['edit'])){
-    $id = $_POST['id_tampung'];
+if(isset($_POST['e_bobot_kriteria'])){
+
     $id_bobot = $_POST['id_bobot'];
-    $prioritas1 = $_POST['prioritas_1'];
-    $prioritas2 = $_POST['prioritas_2'];
-    $prioritas3 = $_POST['prioritas_3'];
-    $prioritas4 = $_POST['prioritas_4'];
-    
-    $dataTampung = [
-        $prioritas1,$prioritas2,$prioritas3,$prioritas4
-    ];
+    $c1 = htmlspecialchars($_POST['e_bobot_kriteria'][0])/100;
+    $c2 = htmlspecialchars($_POST['e_bobot_kriteria'][1])/100;
+    $c3 = htmlspecialchars($_POST['e_bobot_kriteria'][2])/100;
+    $c4 = htmlspecialchars($_POST['e_bobot_kriteria'][3])/100;
+   
     $dataBobotKriteria = [
-        $prioritas1 => 0.4,
-        $prioritas2 => 0.3,
-        $prioritas3 => 0.2,
-        $prioritas4 => 0.1,
+        $c1,$c2,$c3,$c4
     ];
-    $tambahBobotKriteria = $Kriteria->editBobotKriteria($id_bobot,$dataBobotKriteria);
-    $Kriteria->editTampung($id,$dataTampung);
+   
+    $Kriteria->editBobotKriteria($id_bobot,$dataBobotKriteria);
 }
 
-$data_Kriteria = $Kriteria->getKriteria($id_user);
+$data_Kriteria = $Kriteria->getKriteriaByUser($id_user);
+$dataBobot = $Kriteria->getBobotKriteria($id_user);
 $id_bobot = mysqli_fetch_assoc($data_Kriteria);
-$dataKriteria = [
-    "Harga", "Kualitas", "Volume", "Kelengkapan"
-];
+$dataKriteria = $Kriteria->getKriteria();
 
 $dataTampung = $koneksi->query("SELECT * FROM tabel_tampung WHERE f_id_user='$id_user'");
 
@@ -60,7 +45,7 @@ $dataTampung = $koneksi->query("SELECT * FROM tabel_tampung WHERE f_id_user='$id
 <script>
 Swal.fire({
     title: 'Pesan',
-    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada lemari yang dicari, seperti Harga, Kualitas, Volume dan Kelengkapan. Misalnya Anda ingin mencari lemari dengan meprioritaskan Kelengkapan pada prioritas 1, Harga pada prioritas 2, Kualitas pada prioritas 3 dan Volume pada prioritas 4 Dari pilihan prioritas tersebut, sistem akan merekomendasikan lemari dengan kriteria lemari dengan kelengkapan paling banyak kemudian diikuti dengan kriteria lainnya.',
+    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada lemari yang dicari, seperti Harga, Kualitas, Volume dan Kelengkapan. Misalnya Anda ingin mencari lemari dengan meprioritaskan Kelengkapan pada prioritas 1, Harga pada prioritas 2, Kualitas pada prioritas 3 dan Volume pada prioritas 4. Dari pilihan prioritas tersebut, sistem akan merekomendasikan lemari dengan kriteria lemari yang kelengkapan paling banyak kemudian diikuti dengan kriteria lainnya.',
     icon: 'warning',
     confirmButtonText: 'Paham'
 });
@@ -96,62 +81,54 @@ Swal.fire({
         <div class="col-md-4 mb-4">
             <div class="card">
                 <?php if(mysqli_num_rows($data_Kriteria) >= 1):?>
-                <?php foreach ($dataTampung as $tampung) :?>
-                <div class="card-header">
-                    <h5 class="text-center pt-2 col-12">
-                        Edit Prioritas
+                <?php foreach ($dataBobot as $bobot) :?>
+                <div class="card-header bg-primary">
+                    <h5 class="text-center text-white pt-2 col-12 btn-outline-primary">
+                        Edit Bobot Kriteria
                     </h5>
                 </div>
-                <form method="post" action="">
+                <form method="post" id="editKriteriaForm" action="">
                     <div class="card-body">
-                        <div class="mb-3 mt-3">
-                            <input type="hidden" value="<?=$tampung['id'];?>" name="id_tampung">
-                            <input type="hidden" value="<?=$id_bobot['id_bobot'];?>" name="id_bobot">
-                            <label for="prioritas_1" class="form-label">Prioritas 1</label>
-                            <select class="form-control" id="prioritas_1" name="prioritas_1"
-                                aria-label="Default select example">
-                                <option value="">-- Pilih prioritas 1 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option <?= $tampung['prio1'] == $kriteria ? 'selected':''?> value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
+                        <div id="error-message" style="color: red; display: none;">
+                            Total bobot kriteria harus sama dengan 100.
                         </div>
+                        <script>
+                        function validateTotal() {
+                            let inputs = document.getElementsByClassName('edit-bobot-kriteria');
+                            let total = 0;
+
+                            for (let i = 0; i < inputs.length; i++) {
+                                total += parseInt(inputs[i].value);
+                            }
+                            if (total !== 100) {
+                                if (total > 100) {
+                                    document.getElementById('error-message').innerText =
+                                        'Total bobot kriteria tidak boleh melebihi 100.';
+                                } else {
+                                    document.getElementById('error-message').innerText =
+                                        'Total bobot kriteria tidak boleh kurang dari 100.';
+                                }
+
+                                document.getElementById('error-message').style.display = 'block';
+                                return false; // Menghentikan proses submit jika total tidak sama dengan 100 atau melebihi 100
+                            } else {
+                                document.getElementById('error-message').style.display = 'none';
+                                document.getElementById('editKriteriaForm')
+                                    .submit(); // Lakukan pengiriman data form jika validasi berhasil
+                            }
+                        }
+                        </script>
+                        <?php $i = 1;?>
+                        <?php foreach($dataKriteria as $kriteria):?>
                         <div class="mb-3 mt-3">
-                            <label for="prioritas_2" class="form-label">Prioritas 2</label>
-                            <select class="form-control" id="prioritas_2" name="prioritas_2">
-                                <option value="">-- Pilih prioritas 2 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option <?= $tampung['prio2'] == $kriteria ? 'selected':''?> value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
+                            <input type="hidden" name="id_bobot" value="<?=$bobot['id_bobot'];?>">
+                            <label for="bobot_kriteria" class="form-label"><?=$kriteria['nama_kriteria'];?></label>
+                            <input type="number" max="100" class="form-control edit-bobot-kriteria"
+                                name="e_bobot_kriteria[]" value="<?=($bobot['C'.$i++]*100);?>">
                         </div>
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_3" class="form-label">Prioritas 3</label>
-                            <select class="form-control" id="prioritas_3" name="prioritas_3">
-                                <option value="">-- Pilih prioritas 3 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option <?= $tampung['prio3'] == $kriteria ? 'selected':''?> value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_4" class="form-label">Prioritas 4</label>
-                            <select class="form-control" id="prioritas_4" name="prioritas_4">
-                                <option value="">-- Pilih prioritas 4 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option <?= $tampung['prio4'] == $kriteria ? 'selected':''?> value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                        <button type="submit" name="edit" class="btn col-12 btn-outline-primary">
+                        <?php endforeach;?>
+                        <button type="button" name="edit" onclick="validateTotal()"
+                            class="btn col-12 btn-outline-primary">
                             Simpan
                         </button>
                     </div>
@@ -159,59 +136,53 @@ Swal.fire({
                 <?php endforeach;?>
                 <?php endif;?>
                 <?php if(mysqli_num_rows($data_Kriteria) <= 0):?>
-                <div class="card-header">
-                    <h5 class="text-center pt-2 col-12">
-                        Masukan Prioritas
+                <div class="card-header bg-primary">
+                    <h5 class="text-center text-white pt-2 col-12 btn-outline-primary">
+                        Masukan Bobot Kriteria
                     </h5>
                 </div>
-                <form method="post" action="">
+                <form method="post" id="kriteriaForm" action="">
                     <div class="card-body">
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_1" class="form-label">Prioritas 1</label>
-                            <select class="form-control" id="prioritas_1" name="prioritas_1"
-                                aria-label="Default select example">
-                                <option value="">-- Pilih prioritas 1 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
+                        <div id="error-message" style="color: red; display: none;">
+                            Total bobot kriteria harus sama dengan 100.
                         </div>
+                        <script>
+                        function validateTotal() {
+                            let inputs = document.getElementsByClassName('bobot-kriteria');
+                            let total = 0;
+
+                            for (let i = 0; i < inputs.length; i++) {
+                                total += parseInt(inputs[i].value);
+                            }
+
+                            if (total !== 100) {
+
+                                if (total > 100) {
+                                    document.getElementById('error-message').innerText =
+                                        'Total bobot kriteria tidak boleh melebihi 100.';
+                                } else {
+                                    document.getElementById('error-message').innerText =
+                                        'Total bobot kriteria tidak boleh kurang dari 100.';
+                                }
+
+                                document.getElementById('error-message').style.display = 'block';
+                                return false; // Menghentikan proses submit jika total tidak sama dengan 100 atau melebihi 100
+                            } else {
+                                document.getElementById('error-message').style.display = 'none';
+                                document.getElementById('kriteriaForm')
+                                    .submit(); // Lakukan pengiriman data form jika validasi berhasil
+                            }
+                        }
+                        </script>
+                        <?php foreach($dataKriteria as $kriteria):?>
                         <div class="mb-3 mt-3">
-                            <label for="prioritas_2" class="form-label">Prioritas 2</label>
-                            <select class="form-control" id="prioritas_2" name="prioritas_2">
-                                <option value="">-- Pilih prioritas 2 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
+                            <label for="bobot_kriteria" class="form-label"><?=$kriteria['nama_kriteria'];?></label>
+                            <input type="number" max="100" class="form-control bobot-kriteria" name="t_bobot_kriteria[]"
+                                value="0">
                         </div>
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_3" class="form-label">Prioritas 3</label>
-                            <select class="form-control" id="prioritas_3" name="prioritas_3">
-                                <option value="">-- Pilih prioritas 3 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                        <div class="mb-3 mt-3">
-                            <label for="prioritas_4" class="form-label">Prioritas 4</label>
-                            <select class="form-control" id="prioritas_4" name="prioritas_4">
-                                <option value="">-- Pilih prioritas 4 --</option>
-                                <?php foreach($dataKriteria as $kriteria):?>
-                                <option value="<?=$kriteria;?>">
-                                    <?=$kriteria;?>
-                                </option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                        <button type="submit" name="simpan" class="btn col-12 btn-outline-primary">
+                        <?php endforeach;?>
+                        <button type="button" name="simpan" onclick="validateTotal()"
+                            class="btn col-12 btn-outline-primary">
                             Simpan
                         </button>
                     </div>
