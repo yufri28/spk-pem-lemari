@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Sep 2023 pada 16.49
+-- Waktu pembuatan: 18 Sep 2023 pada 17.45
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -66,7 +66,7 @@ CREATE TABLE `bobot_kriteria` (
 --
 
 INSERT INTO `bobot_kriteria` (`id_bobot`, `C1`, `C2`, `C3`, `C4`, `f_id_user`) VALUES
-(2, 0.3, 0.1, 0.4, 0.2, 7);
+(3, 0.4, 0, 0, 0.6, 7);
 
 -- --------------------------------------------------------
 
@@ -273,7 +273,7 @@ ALTER TABLE `alternatif`
 -- AUTO_INCREMENT untuk tabel `bobot_kriteria`
 --
 ALTER TABLE `bobot_kriteria`
-  MODIFY `id_bobot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_bobot` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `kec_alt_kriteria`
