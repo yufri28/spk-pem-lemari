@@ -54,7 +54,7 @@ Swal.fire({
     <!-- Area Chart -->
     <!-- Button trigger modal -->
     <div class="col-lg-12">
-        <?php if(mysqli_num_rows($data_Kriteria) < 5): ?>
+        <?php if(mysqli_num_rows($data_Kriteria) < 4): ?>
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambah">
             + Tambah data
         </button>

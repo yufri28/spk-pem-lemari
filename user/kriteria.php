@@ -44,8 +44,8 @@ $dataTampung = $koneksi->query("SELECT * FROM tabel_tampung WHERE f_id_user='$id
 <?php if (mysqli_num_rows($data_Kriteria) <= 0): ?>
 <script>
 Swal.fire({
-    title: 'Pesan',
-    text: 'Pililah kriteria sesuai prioritas yang Anda inginkan pada lemari yang dicari, seperti Harga, Kualitas, Volume dan Kelengkapan. Misalnya Anda ingin mencari lemari dengan meprioritaskan Kelengkapan pada prioritas 1, Harga pada prioritas 2, Kualitas pada prioritas 3 dan Volume pada prioritas 4. Dari pilihan prioritas tersebut, sistem akan merekomendasikan lemari dengan kriteria lemari yang kelengkapan paling banyak kemudian diikuti dengan kriteria lainnya.',
+    title: 'Panduan',
+    text: 'Masukan Bobot Kriteria Dimana Jumlah Keempat Bobot Adalah 100 dan Bobot Terbesar Menunjukan Kriteria Yang Diprioritaskan.',
     icon: 'warning',
     confirmButtonText: 'Paham'
 });
@@ -75,6 +75,39 @@ Swal.fire({
 <?php unset($_SESSION['error']); // Menghapus session setelah ditampilkan ?>
 <?php endif; ?>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let button_like_link = document.getElementById('btn-like-link');
+
+    button_like_link.addEventListener('click', function() {
+        Swal.fire({
+            title: 'Panduan',
+            text: 'Masukan Bobot Kriteria Dimana Jumlah Keempat Bobot Adalah 100 dan Bobot Terbesar Menunjukan Kriteria Yang Diprioritaskan.',
+            icon: 'warning',
+            confirmButtonText: 'Paham'
+        });
+    });
+});
+</script>
+
+<style>
+.button-like-link {
+    background: none;
+    border: none;
+    color: blue;
+    /* Warna teks mirip tautan */
+    text-decoration: none;
+    /* Garis bawah mirip tautan */
+    cursor: pointer;
+    /* Jika ingin menyesuaikan tampilan saat digerakkan mouse */
+}
+
+.button-like-link:hover {
+    text-decoration: none;
+    /* Menghilangkan garis bawah saat digerakkan mouse */
+    /* Sesuaikan tampilan hover sesuai keinginan */
+}
+</style>
 <div class="container" style="font-family: 'Prompt', sans-serif">
     <div class="row">
         <!-- <div class="d-md-flex"> -->
@@ -92,6 +125,9 @@ Swal.fire({
                         <div id="error-message" style="color: red; display: none;">
                             Total bobot kriteria harus sama dengan 100.
                         </div>
+                        <button type="button" id="btn-like-link"
+                            class="button-like-link col-lg-12 d-flex justify-content-end"><small
+                                class="">Panduan?</small></button>
                         <script>
                         function validateTotal() {
                             let inputs = document.getElementsByClassName('edit-bobot-kriteria');
