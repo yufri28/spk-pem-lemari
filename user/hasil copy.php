@@ -5,14 +5,7 @@ $_SESSION['menu'] = 'hasil';
 require_once './header.php';
 require_once './functions/hasil.php';
 $id_user = $_SESSION['id_user'];
-
-
-if(isset($_POST['simpan'])){
-    $c1 = $_POST['c1'];
-    $dataPreferensi = $getDataHasil->getDataPreferensi($id_user,$c1,$c2,$c3,$c4);
-}else{
-    $dataPreferensi = $getDataHasil->getDataPreferensi($id_user,0,0,0,0);
-}
+$dataPreferensi = $getDataHasil->getDataPreferensi($id_user);
 $selectBobot = $koneksi->query("SELECT * FROM bobot_kriteria WHERE f_id_user='$id_user'");
 
 if(mysqli_num_rows($selectBobot) <= 0){

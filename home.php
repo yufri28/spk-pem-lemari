@@ -50,6 +50,12 @@
                             Sistem pendukung keputusan menggunakan metode <i style="color:#116A7B">Multi-Attribute
                                 Utility Theory</i>
                         </h5>
+                        <p class="fw-bolder" style="color: hsl(217, 10%, 50.8%)">Bingung dalam menentukan pilihan
+                            lemari? Klik 'Mulai' untuk
+                            mendapatkan bantuan dalam
+                            menemukan lemari yang cocok untuk Anda.</p>
+                        <a class="btn btn-lg py-2 px-4 me-5 col-lg-3" style="background-color: #29ADB2; color: white;"
+                            href="./user/pemilihan_lemari.php">Mulai</a>
                     </div>
                     <div class="col-lg-7 mb-1 mt-4 mb-lg-0">
                         <div class="card">

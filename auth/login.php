@@ -128,9 +128,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         class="btn px-2 py-3 col-12 btn-primary btn-block mb-2">
                                         Login
                                     </button>
-                                    <a href="../daftar.php" class="btn px-2 py-3 col-12 btn-secondary btn-block mb-4">
+                                    <!-- <a href="../daftar.php" class="btn px-2 py-3 col-12 btn-secondary btn-block mb-4">
                                         Daftar
-                                    </a>
+                                    </a> -->
                                 </form>
                             </div>
                         </div>

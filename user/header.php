@@ -1,14 +1,5 @@
 <?php 
 require_once '../config.php';
-
-if(!isset($_SESSION['login']) && $_SESSION['login'] != true){
-    header("Location: ../index.php");
-}
-else if($_SESSION['level'] != 1){
-    header("Location: ../404.php");
-    exit;
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +49,7 @@ else if($_SESSION['level'] != 1){
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Pengguna <sup><?=$_SESSION['username'];?></sup></div>
+                <div class="sidebar-brand-text mx-3">Pengguna</div>
             </a>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item <?= $_SESSION['menu'] == 'index' ? 'active':'';?>">
@@ -68,9 +59,9 @@ else if($_SESSION['level'] != 1){
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item <?= $_SESSION['menu'] == 'kriteria' ? 'active':'';?>">
-                <a class="nav-link" href="./kriteria.php">
+                <a class="nav-link" href="./pemilihan_lemari.php">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Kriteria</span></a>
+                    <span>Pemilihan Lemari</span></a>
             </li>
             <!-- Nav Item - Charts -->
             <li class="nav-item <?= $_SESSION['menu'] == 'referensi' ? 'active':'';?>">
@@ -80,11 +71,11 @@ else if($_SESSION['level'] != 1){
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item <?= $_SESSION['menu'] == 'hasil' ? 'active':'';?>">
+            <!-- <li class="nav-item <?= $_SESSION['menu'] == 'hasil' ? 'active':'';?>">
                 <a class="nav-link" href="./hasil.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Hasil</span></a>
-            </li>
+            </li> -->
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block" />
@@ -106,27 +97,20 @@ else if($_SESSION['level'] != 1){
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
-
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="d-none d-lg-inline text-gray-600 small"><?=$_SESSION['username'];?></span>
-                                <img class="rounded-circle mr-5" src="../assets/img/undraw_profile_2.svg" />
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-primary " style="height: 100%" href="../index.php"
+                                id="userDropdown">
+                                <span class="d-none d-lg-inline text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                                    </svg> Back to Home</span>
                             </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../auth/logout.php">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
                         </li>
                     </ul>
                 </nav>
