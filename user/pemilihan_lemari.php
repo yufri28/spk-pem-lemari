@@ -10,6 +10,8 @@ $c1 = 0;
 $c2 = 0;
 $c3 = 0;
 $c4 = 0;
+
+$post = false;
 if(isset($_POST['t_bobot_kriteria'])){
     $c1 = htmlspecialchars($_POST['t_bobot_kriteria'][0])/100;
     $c2 = htmlspecialchars($_POST['t_bobot_kriteria'][1])/100;
@@ -18,6 +20,7 @@ if(isset($_POST['t_bobot_kriteria'])){
    
     $dataBobotKriteria = [$c1,$c2,$c3,$c4];
     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
+    $post = true;
 }else{
     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
 }
@@ -33,6 +36,7 @@ if(isset($_POST['e_bobot_kriteria'])){
     ];
    
     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
+    $post = true;
 }else{
     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
 }
@@ -101,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="row">
         <div class="col-md-3">
             <div class="card">
-                <?php if(isset($_POST['e_bobot_kriteria'])):?>
+                <?php if($post == true):?>
                 <div class="card-header bg-primary">
                     <h5 class="text-center text-white pt-2 col-12 btn-outline-primary">
                         Edit Bobot Kriteria
@@ -109,6 +113,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <form method="post" id="editKriteriaForm" action="">
                     <div class="card-body">
+                        <div id="bobot-anda" style="color: red; display: none;">
+                            Bobot Anda : 100.
+                        </div>
                         <div id="error-message" style="color: red; display: none;">
                             Total bobot kriteria harus sama dengan 100.
                         </div>
@@ -157,11 +164,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 sisaBobot = 100 - total;
                                 $('#error-message').text('Sisa Bobot : ' + sisaBobot);
+                                $('#bobot-anda').text('Bobot Anda : ' + total);
                                 if (sisaBobot != 0) {
-
                                     $('#error-message').css('display', 'block');
+                                    $('#bobot-anda').css('display', 'block');
                                 } else {
                                     $('#error-message').css('display', 'none');
+                                    $('#bobot-anda').css('display', 'none');
                                 }
                             });
                         });
@@ -217,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </form>
                 <?php endif;?>
-                <?php if(!isset($_POST['e_bobot_kriteria'])):?>
+                <?php if($post == false):?>
                 <div class="card-header bg-primary">
                     <h5 class="text-center text-white pt-2 col-12 btn-outline-primary">
                         Masukan Bobot Kriteria
@@ -225,6 +234,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <form method="post" id="kriteriaForm" action="">
                     <div class="card-body">
+                        <div id="bobot-anda" style="color: red; display: none;">
+                            Bobot Anda : 100.
+                        </div>
                         <div id="error-message" style="color: red; display: none;">
                             Total bobot kriteria harus sama dengan 100.
                         </div>
@@ -246,11 +258,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 sisaBobot = 100 - total;
                                 $('#error-message').text('Sisa Bobot : ' + sisaBobot);
+                                $('#bobot-anda').text('Bobot Anda : ' + total);
                                 if (sisaBobot != 0) {
-
                                     $('#error-message').css('display', 'block');
+                                    $('#bobot-anda').css('display', 'block');
                                 } else {
                                     $('#error-message').css('display', 'none');
+                                    $('#bobot-anda').css('display', 'none');
                                 }
                             });
                         });
