@@ -10,27 +10,50 @@ $c1 = 0;
 $c2 = 0;
 $c3 = 0;
 $c4 = 0;
+$C1_ = 0;
+$C2_ = 0;
+$C3_ = 0;
+$C4_ = 0;
+$total_bobot = 0;
 
 $post = false;
-if(isset($_POST['t_bobot_kriteria'])){
-    $c1 = htmlspecialchars($_POST['t_bobot_kriteria'][0])/100;
-    $c2 = htmlspecialchars($_POST['t_bobot_kriteria'][1])/100;
-    $c3 = htmlspecialchars($_POST['t_bobot_kriteria'][2])/100;
-    $c4 = htmlspecialchars($_POST['t_bobot_kriteria'][3])/100;
+// if(isset($_POST['t_bobot_kriteria'])){
+//     $C1_ = htmlspecialchars($_POST['t_bobot_kriteria'][0]);
+//     $C2_ = htmlspecialchars($_POST['t_bobot_kriteria'][1]);
+//     $C3_ = htmlspecialchars($_POST['t_bobot_kriteria'][2]);
+//     $C4_ = htmlspecialchars($_POST['t_bobot_kriteria'][3]);
+//     $total_bobot = $C1_ + $C2_ + $C3_ + $C4_;
    
-    $dataBobotKriteria = [$c1,$c2,$c3,$c4];
-    $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
-    $post = true;
-}else{
-    $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
-}
+//     $c1 = $C1_/$total_bobot;
+//     $c2 = $C2_/$total_bobot;
+//     $c3 = $C3_/$total_bobot;
+//     $c4 = $C4_/$total_bobot;
+
+
+//     echo $c1;
+//     echo $c2;
+//     echo $c3;
+//     echo $c4;
+//     die;
+//     $dataBobotKriteria = [$c1,$c2,$c3,$c4];
+//     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
+//     $post = true;
+// }else{
+//     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
+// }
 if(isset($_POST['e_bobot_kriteria'])){
 
-    $c1 = htmlspecialchars($_POST['e_bobot_kriteria'][0])/100;
-    $c2 = htmlspecialchars($_POST['e_bobot_kriteria'][1])/100;
-    $c3 = htmlspecialchars($_POST['e_bobot_kriteria'][2])/100;
-    $c4 = htmlspecialchars($_POST['e_bobot_kriteria'][3])/100;
+    $C1_ = htmlspecialchars($_POST['e_bobot_kriteria'][0]);
+    $C2_ = htmlspecialchars($_POST['e_bobot_kriteria'][1]);
+    $C3_ = htmlspecialchars($_POST['e_bobot_kriteria'][2]);
+    $C4_ = htmlspecialchars($_POST['e_bobot_kriteria'][3]);
+    $total_bobot = $C1_ + $C2_ + $C3_ + $C4_;
    
+    $c1 = $C1_/$total_bobot;
+    $c2 = $C2_/$total_bobot;
+    $c3 = $C3_/$total_bobot;
+    $c4 = $C4_/$total_bobot;
+
     $dataBobotKriteria = [
         $c1,$c2,$c3,$c4
     ];
@@ -74,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
     button_like_link.addEventListener('click', function() {
         Swal.fire({
             title: 'Panduan',
-            text: 'Masukan Bobot Kriteria Dimana Jumlah Keempat Bobot Adalah 100 dan Bobot Terbesar Menunjukan Kriteria Yang Diprioritaskan.',
+            text: 'Masukan Range Bobot Kriteria Dimana Range Bobot Setiap Kriteria Adalah 0 Sampai 100 dan Bobot Terbesar Menunjukan Kriteria Yang Diprioritaskan.',
             icon: 'warning',
             confirmButtonText: 'Paham'
         });
@@ -122,105 +145,77 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button type="button" id="btn-like-link"
                             class="button-like-link col-lg-12 d-flex justify-content-end"><small
                                 class="">Panduan?</small></button>
-                        <!-- <script>
-                        function validateTotal() {
-                            let inputs = document.getElementsByClassName('edit-bobot-kriteria');
-                            let total = 0;
-
-                            for (let i = 0; i < inputs.length; i++) {
-                                total += parseInt(inputs[i].value);
-                            }
-                            if (total !== 100) {
-                                if (total > 100) {
-                                    document.getElementById('error-message').innerText =
-                                        'Total bobot kriteria tidak boleh melebihi 100.';
-                                } else {
-                                    document.getElementById('error-message').innerText =
-                                        'Total bobot kriteria tidak boleh kurang dari 100.';
-                                }
-
-                                document.getElementById('error-message').style.display = 'block';
-                                return false; // Menghentikan proses submit jika total tidak sama dengan 100 atau melebihi 100
-                            } else {
-                                document.getElementById('error-message').style.display = 'none';
-                                document.getElementById('editKriteriaForm')
-                                    .submit(); // Lakukan pengiriman data form jika validasi berhasil
-                            }
-                        }
-                        </script> -->
-
                         <script>
-                        $(document).ready(function() {
-                            let inputs = $('.edit-bobot-kriteria');
-                            let sisaBobot = 0;
-
-                            inputs.on('input', function() {
-                                let total = 0;
-                                inputs.each(function() {
-                                    let nilaiInput = parseInt($(this).val()) ||
-                                        0; // Pastikan nilai diambil sebagai integer, jika tidak maka gunakan 0
-                                    total += nilaiInput;
-                                });
-
-                                sisaBobot = 100 - total;
-                                $('#error-message').text('Sisa Bobot : ' + sisaBobot);
-                                $('#bobot-anda').text('Bobot Anda : ' + total);
-                                if (sisaBobot != 0) {
-                                    $('#error-message').css('display', 'block');
-                                    $('#bobot-anda').css('display', 'block');
-                                } else {
-                                    $('#error-message').css('display', 'none');
-                                    $('#bobot-anda').css('display', 'none');
-                                }
-                            });
-                        });
-
-                        function validateTotal() {
-                            let inputs = $('.edit-bobot-kriteria');
-                            let total = 0;
-
-                            inputs.each(function() {
-                                total += parseInt($(this).val());
-                            });
-
-                            if (total !== 100) {
-                                if (total > 100) {
-                                    $('#error-message').text('Total bobot kriteria tidak boleh melebihi 100.');
-                                } else {
-                                    $('#error-message').text('Total bobot kriteria tidak boleh kurang dari 100.');
-                                }
-
-                                $('#error-message').css('display', 'block');
-                                return false;
-                            } else {
-                                $('#error-message').css('display', 'none');
-                                $('#editKriteriaForm').submit();
-                            }
+                        function updateWeight1(value) {
+                            document.getElementById('bobotValue1').innerText = 'Bobot Harga: ' +
+                                value;
                         }
-                        </script>
 
+                        function updateWeight2(value) {
+                            document.getElementById('bobotValue2').textContent = 'Bobot Kualitas: ' + value;
+                        }
+
+                        function updateWeight3(value) {
+                            document.getElementById('bobotValue3').textContent =
+                                'Bobot Volume: ' + value;
+                        }
+
+                        function updateWeight4(value) {
+                            document.getElementById('bobotValue4').textContent =
+                                'Bobot Kelengkapan: ' + value;
+                        }
+
+
+                        // Inisialisasi bobot saat halaman dimuat
+                        window.onload = function() {
+                            var initialValue1 = document.querySelector('.edit-bobot-kriteria1').value;
+                            var initialValue2 = document.querySelector('.edit-bobot-kriteria2').value;
+                            var initialValue3 = document.querySelector('.edit-bobot-kriteria3').value;
+                            var initialValue4 = document.querySelector('.edit-bobot-kriteria4').value;
+                            updateWeight1(initialValue1);
+                            updateWeight2(initialValue2);
+                            updateWeight3(initialValue3);
+                            updateWeight4(initialValue4);
+                        };
+                        </script>
+                        <hr>
+                        <i><small>Range bobot setiap Kriteria : 0 - 100</small></i>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Harga</label>
-                            <input type="number" max="100" class="form-control edit-bobot-kriteria"
-                                name="e_bobot_kriteria[]" value="<?=$c1*100;?>">
+
+                            <span id="bobotValue1"><label for="bobot_kriteria" class="form-label">Bobot Harga</label>:
+                                0</span>
+                            <input type="range" min="0" max="100" onload="updateWeight1(this.value)"
+                                oninput="updateWeight1(this.value)" class="form-control-range edit-bobot-kriteria1"
+                                name="e_bobot_kriteria[]" value="<?=$C1_;?>">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Kualitas</label>
-                            <input type="number" max="100" class="form-control edit-bobot-kriteria"
-                                name="e_bobot_kriteria[]" value="<?=$c2*100;?>">
+
+                            <span id="bobotValue2">
+                                <<label for="bobot_kriteria" class="form-label">Bobot Kualitas</label>:
+                                    0
+                            </span>
+                            <input type="range" min="0" max="100" onload="updateWeight1(this.value)"
+                                oninput="updateWeight2(this.value)" class="form-control-range edit-bobot-kriteria2"
+                                name="e_bobot_kriteria[]" value="<?=$C2_;?>">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Volume</label>
-                            <input type="number" max="100" class="form-control edit-bobot-kriteria"
-                                name="e_bobot_kriteria[]" value="<?=$c3*100;?>">
+
+                            <span id="bobotValue3"><label for="bobot_kriteria" class="form-label">Bobot Volume</label>:
+                                0</span>
+                            <input type="range" min="0" max="100" onload="updateWeight1(this.value)"
+                                oninput="updateWeight3(this.value)" class="form-control-range edit-bobot-kriteria3"
+                                name="e_bobot_kriteria[]" value="<?=$C3_;?>">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Kelengkapan</label>
-                            <input type="number" max="100" class="form-control edit-bobot-kriteria"
-                                name="e_bobot_kriteria[]" value="<?=$c4*100;?>">
+
+                            <span id="bobotValue4"><label for="bobot_kriteria" class="form-label">Bobot
+                                    Kelengkapan</label>:
+                                0</span>
+                            <input type="range" min="0" max="100" onload="updateWeight1(this.value)"
+                                oninput="updateWeight4(this.value)" class="form-control-range edit-bobot-kriteria4"
+                                name="e_bobot_kriteria[]" value="<?=$C4_;?>">
                         </div>
-                        <button type="button" name="edit" onclick="validateTotal()"
-                            class="btn col-12 btn-outline-primary">
+                        <button type="submit" name="edit" class="btn col-12 btn-outline-primary">
                             Simpan
                         </button>
                     </div>
@@ -232,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         Masukan Bobot Kriteria
                     </h5>
                 </div>
-                <form method="post" id="kriteriaForm" action="">
+                <form method="post" action="">
                     <div class="card-body">
                         <div id="bobot-anda" style="color: red; display: none;">
                             Bobot Anda : 100.
@@ -244,77 +239,55 @@ document.addEventListener('DOMContentLoaded', function() {
                             class="button-like-link col-lg-12 d-flex justify-content-end"><small
                                 class="">Panduan?</small></button>
                         <script>
-                        $(document).ready(function() {
-                            let inputs = $('.bobot-kriteria');
-                            let sisaBobot = 0;
+                        function updateWeight1(value) {
+                            document.getElementById('weightDisplay1').textContent = 'Bobot Harga: ' +
+                                value;
+                        }
 
-                            inputs.on('input', function() {
-                                let total = 0;
-                                inputs.each(function() {
-                                    let nilaiInput = parseInt($(this).val()) ||
-                                        0; // Pastikan nilai diambil sebagai integer, jika tidak maka gunakan 0
-                                    total += nilaiInput;
-                                });
+                        function updateWeight2(value) {
+                            document.getElementById('weightDisplay2').textContent = 'Bobot Kualitas: ' + value;
+                        }
 
-                                sisaBobot = 100 - total;
-                                $('#error-message').text('Sisa Bobot : ' + sisaBobot);
-                                $('#bobot-anda').text('Bobot Anda : ' + total);
-                                if (sisaBobot != 0) {
-                                    $('#error-message').css('display', 'block');
-                                    $('#bobot-anda').css('display', 'block');
-                                } else {
-                                    $('#error-message').css('display', 'none');
-                                    $('#bobot-anda').css('display', 'none');
-                                }
-                            });
-                        });
+                        function updateWeight3(value) {
+                            document.getElementById('weightDisplay3').textContent =
+                                'Bobot Volume: ' + value;
+                        }
 
-
-                        function validateTotal() {
-                            let inputs = $('.bobot-kriteria');
-                            let total = 0;
-                            inputs.each(function() {
-                                total += parseInt($(this).val());
-                            });
-
-                            if (total !== 100) {
-                                if (total > 100) {
-                                    $('#error-message').text('Total bobot kriteria tidak boleh melebihi 100.');
-                                } else {
-                                    $('#error-message').text(
-                                        'Total bobot kriteria tidak boleh kurang dari 100.');
-                                }
-
-                                $('#error-message').css('display', 'block');
-                                return false;
-                            } else {
-                                $('#error-message').css('display', 'none');
-                                $('#kriteriaForm').submit();
-                            }
+                        function updateWeight4(value) {
+                            document.getElementById('weightDisplay4').textContent =
+                                'Bobot Kelengkapan: ' + value;
                         }
                         </script>
+                        <hr>
+                        <i><small>Range bobot setiap Kriteria : 0 - 100</small></i>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Harga</label>
-                            <input type="number" max="100" class="form-control bobot-kriteria" name="e_bobot_kriteria[]"
-                                value="<?=$c1*100;?>">
+                            <span id="weightDisplay1"><label for="bobot_kriteria" class="form-label">Bobot
+                                    Harga</label>: 0</span>
+                            <input type="range" min="0" max="100" oninput="updateWeight1(this.value)"
+                                class="form-control-range bobot-kriteria" name="e_bobot_kriteria[]" value="<?=$c1;?>">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Kualitas</label>
-                            <input type="number" max="100" class="form-control bobot-kriteria" name="e_bobot_kriteria[]"
-                                value="<?=$c2*100;?>">
+
+                            <span id="weightDisplay2"><label for="bobot_kriteria" class="form-label">Bobot
+                                    Kualitas</label>: 0</span>
+                            <input type="range" min="0" max="100" oninput="updateWeight2(this.value)"
+                                class="form-control-range bobot-kriteria" name="e_bobot_kriteria[]" value="<?=$c2;?>">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Volume</label>
-                            <input type="number" max="100" class="form-control bobot-kriteria" name="e_bobot_kriteria[]"
-                                value="<?=$c3*100;?>">
+
+                            <span id="weightDisplay3"><label for="bobot_kriteria" class="form-label">Bobot
+                                    Volume</label>: 0</span>
+                            <input type="range" min="0" max="100" oninput="updateWeight3(this.value)"
+                                class="form-control-range bobot-kriteria" name="e_bobot_kriteria[]" value="<?=$c3;?>">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="bobot_kriteria" class="form-label">Bobot Kelengkapan</label>
-                            <input type="number" max="100" class="form-control bobot-kriteria" name="e_bobot_kriteria[]"
-                                value="<?=$c4*100;?>">
+
+                            <span id="weightDisplay4"><label for="bobot_kriteria" class="form-label">Bobot
+                                    Kelengkapan</label>: 0</span>
+                            <input type="range" min="0" max="100" oninput="updateWeight4(this.value)"
+                                class="form-control-range bobot-kriteria" name="e_bobot_kriteria[]" value="<?=$c4;?>">
                         </div>
-                        <button type="button" name="simpan" onclick="validateTotal()"
-                            class="btn col-12 btn-outline-primary">
+                        <button type="submit" name="simpan" class="btn col-12 btn-outline-primary">
                             Simpan
                         </button>
                     </div>
