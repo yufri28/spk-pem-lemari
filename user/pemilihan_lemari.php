@@ -42,7 +42,6 @@ $post = false;
 //     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
 // }
 if(isset($_POST['e_bobot_kriteria'])){
-
     $C1_ = htmlspecialchars($_POST['e_bobot_kriteria'][0]);
     $C2_ = htmlspecialchars($_POST['e_bobot_kriteria'][1]);
     $C3_ = htmlspecialchars($_POST['e_bobot_kriteria'][2]);
@@ -59,6 +58,8 @@ if(isset($_POST['e_bobot_kriteria'])){
     ];
    
     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
+    $dataPreferensiLimOne = $getDataHasil->getDataPreferensiLimOne($c1,$c2,$c3,$c4);
+    $simpanRiwayat = $getDataHasil->simpanRiwayat($dataPreferensiLimOne['id_alternatif'],$c1,$c2,$c3,$c4);
     $post = true;
 }else{
     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <?php if($post == true):?>
                 <div class="card-header bg-primary">
                     <h5 class="text-center text-white pt-2 col-12 btn-outline-primary">
-                        Edit Bobot Kriteria
+                        Masukkan Bobot Kriteria
                     </h5>
                 </div>
                 <form method="post" id="editKriteriaForm" action="">

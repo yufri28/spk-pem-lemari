@@ -83,11 +83,11 @@ else if($_SESSION['level'] != 0){
                     <i class="fas fa-fw fa-table"></i>
                     <span>Sub Kriteria</span></a>
             </li>
-            <!-- <li class="nav-item <?= $_SESSION['menu'] == 'users' ? 'active':'';?>">
-                <a class="nav-link" href="./user.php">
-                    <i class="fas fa-user"></i>
-                    <span>Data user</span></a>
-            </li> -->
+            <li class="nav-item <?= $_SESSION['menu'] == 'riwayat' ? 'active':'';?>">
+                <a class="nav-link" href="./riwayat.php">
+                    <i class="fas fa-clock"></i>
+                    <span>Riwayat</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block" />
