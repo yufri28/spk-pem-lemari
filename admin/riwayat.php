@@ -104,7 +104,7 @@ Swal.fire({
                                         <td><?=$riwayat['nama_C3'];?></td>
                                         <td><?=$riwayat['nama_C4'];?></td>
                                         <td><?= $riwayat['merek'] != NULL ? $riwayat['merek']:'-';?></td>
-                                        <td><?=$riwayat['preferensi'] != 0 ? $riwayat['preferensi']:0;?></td>
+                                        <td><?=$riwayat['preferensi'] != 0 ? round($riwayat['preferensi'],3):0;?></td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                                 data-target="#hapus<?= $Riw['id_riwayat'];?>">

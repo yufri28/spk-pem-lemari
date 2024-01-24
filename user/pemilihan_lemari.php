@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <td><?=$preferensi['nama_C3'];?></td>
                                     <td><?=$preferensi['nama_C4'];?></td>
                                     <td><?= $preferensi['merek'] != NULL ? $preferensi['merek']:'-';?></td>
-                                    <td><?=$preferensi['preferensi'] != 0 ? $preferensi['preferensi']:0;?></td>
+                                    <td><?=$preferensi['preferensi'] != 0 ?  round($preferensi['preferensi'],3):0;?></td>
                                 </tr>
                                 <?php endforeach;?>
                             </tbody>
