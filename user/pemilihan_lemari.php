@@ -15,8 +15,24 @@ $C2_ = 0;
 $C3_ = 0;
 $C4_ = 0;
 $total_bobot = 0;
-
+$merek = "Semua";
 $post = false;
+function merek($koneksi)
+{
+    $data = $koneksi->query('SELECT merek FROM alternatif');
+
+    $dataMerek = array();
+    while ($row = $data->fetch_assoc()) {
+        array_push($dataMerek, $row);
+    }
+    // Hapus duplikat menggunakan fungsi array_unique
+    $uniqueRows = array_map("unserialize", array_unique(array_map("serialize", $dataMerek)));
+
+    return $uniqueRows;
+}
+
+
+$dataMerek = merek($koneksi);
 // if(isset($_POST['t_bobot_kriteria'])){
 //     $C1_ = htmlspecialchars($_POST['t_bobot_kriteria'][0]);
 //     $C2_ = htmlspecialchars($_POST['t_bobot_kriteria'][1]);
@@ -40,12 +56,17 @@ $post = false;
 //     $post = true;
 // }else{
 //     $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
-// }
+// }        
 if(isset($_POST['e_bobot_kriteria'])){
     $C1_ = htmlspecialchars($_POST['e_bobot_kriteria'][0]);
     $C2_ = htmlspecialchars($_POST['e_bobot_kriteria'][1]);
     $C3_ = htmlspecialchars($_POST['e_bobot_kriteria'][2]);
     $C4_ = htmlspecialchars($_POST['e_bobot_kriteria'][3]);
+    $merek = htmlspecialchars($_POST['merek']);
+
+    if($C1_ == 0 && $C2_ == 0 && $C3_ == 0 && $C4_ == 0){
+        echo "<script>alert('Wajib mengisi bobot kriteria , salah satu bobot kriteria harus memiliki nilai yang lebih besar atau sama dengan 1.');window.location.href='pemilihan_lemari.php'</script>";
+    }
     $total_bobot = $C1_ + $C2_ + $C3_ + $C4_;
    
     $c1 = $C1_/$total_bobot;
@@ -57,12 +78,13 @@ if(isset($_POST['e_bobot_kriteria'])){
         $c1,$c2,$c3,$c4
     ];
    
-    $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
-    $dataPreferensiLimOne = $getDataHasil->getDataPreferensiLimOne($c1,$c2,$c3,$c4);
-    $simpanRiwayat = $getDataHasil->simpanRiwayat($dataPreferensiLimOne['id_alternatif'],$c1,$c2,$c3,$c4);
+    $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4,$merek);
+    $dataPreferensiLimOne = $getDataHasil->getDataPreferensiLimOne($c1,$c2,$c3,$c4,$merek);
+    $simpanRiwayat = $getDataHasil->simpanRiwayat($dataPreferensiLimOne['id_alternatif'],$c1,$c2,$c3,$c4,$dataPreferensiLimOne['preferensi']);
+
     $post = true;
 }else{
-    $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4);
+    $dataPreferensi = $getDataHasil->getDataPreferensi($c1,$c2,$c3,$c4,$merek);
 }
 
 ?>
@@ -180,6 +202,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         };
                         </script>
                         <hr>
+                        <div class="mb-3 mt-3">
+                            <label for="bobot_kriteria" class="form-label">Merek</label>
+                            <select class="form-control" name="merek" aria-label="Default select example">
+                                <option <?= $merek == "Semua" ? 'selected' : '' ?> value="Semua">Semua</option>
+                                <?php foreach ($dataMerek as $merek_) : ?>
+                                    <option <?= $merek == $merek_['merek'] ? 'selected' : '' ?> value="<?= $merek_['merek']; ?>"><?= $merek_['merek']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <i><small>Range bobot setiap Kriteria : 0 - 100</small></i>
                         <div class="mb-3 mt-3">
 
@@ -260,6 +291,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         </script>
                         <hr>
+                        <div class="mb-3 mt-3">
+                            <label for="bobot_kriteria" class="form-label">Merek</label>
+                            <select class="form-control" name="merek" aria-label="Default select example">
+                                <option <?= $merek == "Semua" ? 'selected' : '' ?> value="Semua">Semua</option>
+                                <?php foreach ($dataMerek as $merek_) : ?>
+                                    <option <?= $merek == $merek_['merek'] ? 'selected' : '' ?> value="<?= $merek_['merek']; ?>"><?= $merek_['merek']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <i><small>Range bobot setiap Kriteria : 0 - 100</small></i>
                         <div class="mb-3 mt-3">
                             <span id="weightDisplay1"><label for="bobot_kriteria" class="form-label">Bobot
